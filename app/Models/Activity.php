@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'description',
+    ];
+
+    public function fairActivities()
+    {
+        return $this->hasMany(FairActivity::class);
+    }
 }
