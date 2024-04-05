@@ -12,7 +12,7 @@ class FairController extends Controller
      */
     public function index()
     {
-        //
+        return view('fair.index');
     }
 
     /**
