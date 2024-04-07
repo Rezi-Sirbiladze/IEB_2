@@ -11,7 +11,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            'App\Interfaces\FairInterface',
+            'App\Repositories\FairDateRepository',
+            'App\Interfaces\ActivityInterface',
+            'App\Repositories\ActivityDateRepository',
+            'App\Interfaces\BookingInterface',
+            'App\Repositories\BookingRepository',
+        );
     }
 
     /**

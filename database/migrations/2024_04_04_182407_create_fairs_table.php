@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('fairs', function (Blueprint $table) {
             $table->id();
+            $table->boolean('active')->default(false);
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->date('date');
             $table->string('image_path')->nullable();
             $table->timestamps();

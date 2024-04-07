@@ -23,6 +23,66 @@
         * {
             /* font-family: "Source Sans 3"; */
         }
+
+        #page-content {
+            background-color: white;
+            margin-top: 20vh;
+            font-size: 2rem;
+            padding: 10px;
+            position: relative;
+        }
+
+
+        .btn1 {
+            background-color: #00a4ae;
+            color: white;
+            padding: 12px 40px;
+            text-decoration: none;
+            border-radius: 20px;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 1.5rem;
+        }
+
+        .btn1:hover {
+            background-color: #007d85;
+            transform: translateY(-2px);
+        }
+
+        .btn1:active {
+            transform: translateY(0);
+        }
+
+        .btn2 {
+            background-color: #00a4ae;
+            color: white;
+            padding: 12px 40px;
+            text-decoration: none;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 1.5rem;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 5px 5px 0px 0px;
+        }
+
+        .btn2:hover {
+            background-color: #007d85;
+            transform: translateY(-2px);
+        }
+
+        .btn2:active {
+            transform: translateY(0);
+        }
+
+        .progress {
+            border-radius: 0px 0px 5px 5px;
+            animation: pulse 1s infinite alternate;
+        }
     </style>
 
 </head>
@@ -42,7 +102,11 @@
 
         <!-- Page Content -->
         <main>
-            @yield('content')
+            <div id="page-content" class="mt-0">
+                <div class="container-xxl">
+                    @yield('content')
+                </div>
+            </div>
         </main>
     </div>
 

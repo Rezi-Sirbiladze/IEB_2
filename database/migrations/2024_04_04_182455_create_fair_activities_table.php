@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('fair_activities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('fair')->constrained()->cascadeOnDelete();
-            $table->foreignId('activity')->constrained()->cascadeOnDelete();
+            $table->foreignId('fair_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('activity_id')->constrained()->cascadeOnDelete();
             $table->integer('capacity');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->timestamps();
         });
     }

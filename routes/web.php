@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FairController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,13 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [FairController::class, 'index']);
+Route::get('/', [FairController::class, 'index'])->name('fair.index');
+Route::get('activities', [FairController::class, 'activities'])->name('fair.activities');
+Route::get('location', [FairController::class, 'location'])->name('fair.location');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('fair.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('book/{fairActivity}', [BookingController::class, 'store'])->name('book');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

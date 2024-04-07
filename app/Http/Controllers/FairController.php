@@ -4,20 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Fair;
 use Illuminate\Http\Request;
+use App\Repositories\FairRepository;
+use App\Repositories\ActivityRepository;
 
 class FairController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected ActivityRepository $activityRepository;
+    protected FairRepository $fairRepository;
+
+    public function __construct(ActivityRepository $activityRepository, FairRepository $fairRepository)
     {
-        return view('fair.index');
+        $this->activityRepository = $activityRepository;
+        $this->fairRepository = $fairRepository;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
+    public function index()
+    {
+        $fair = $this->fairRepository->findOneByActived();
+        $startTimes = $fair->fairActivities->groupBy('start_time')->keys();
+        $activities = $this->activityRepository->findAll();
+        return view('fair.index', compact('activities', 'fair', 'startTimes'));
+    }
+
+    public function activities()
+    {
+        return view('fair.activities');
+    }
+
+    public function location()
+    {
+        return view('fair.location');
+    }
+
     public function create()
     {
         //

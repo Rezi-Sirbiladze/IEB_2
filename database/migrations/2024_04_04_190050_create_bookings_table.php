@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user')->constrained()->cascadeOnDelete();
-            $table->foreignId('fair_activitie')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('fair_activity_id')->constrained()->cascadeOnDelete();
             $table->boolean('presented')->default(false);
+            $table->enum('status', ['pending', 'approved'])->default('pending');
             $table->timestamps();
         });
     }

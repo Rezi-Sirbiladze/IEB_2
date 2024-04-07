@@ -10,8 +10,8 @@ class FairActivity extends Model
     use HasFactory;
 
     protected $fillable = [
-        'fair',
-        'activity',
+        'fair_id',
+        'activity_id',
         'capacity',
         'start_time',
         'end_time',
@@ -30,5 +30,10 @@ class FairActivity extends Model
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function capacityPercentage()
+    {
+        return $this->bookings->count() / $this->capacity * 100;
     }
 }

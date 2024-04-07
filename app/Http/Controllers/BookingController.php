@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use App\Repositories\BookingRepository;
 
 class BookingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    protected BookingRepository $bookingRepository;
+
+    public function __construct(BookingRepository $bookingRepository)
+    {
+        $this->bookingRepository = $bookingRepository;
+    }
+
     public function index()
     {
         //
@@ -26,9 +32,10 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($fairActivity)
     {
-        //
+        $this->bookingRepository->create($fairActivity);
+        return redirect()->route('fair.index');
     }
 
     /**
