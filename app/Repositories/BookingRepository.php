@@ -26,12 +26,8 @@ class BookingRepository implements BookingInterface
         return $this->model->findOrFail($id);
     }
 
-    public function create(int $fairActivity): Booking
+    public function create(FairActivity $fairActivity): Booking
     {
-
-        $fairActivity = FairActivity::findOrFail($fairActivity);
-
-
         $existingBookingActivity = $this->model
             ->where('user_id', auth()->id())
             ->whereHas('fairActivity', function ($query) use ($fairActivity) {

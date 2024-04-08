@@ -18,6 +18,8 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\ActivityDateRepository',
             'App\Interfaces\BookingInterface',
             'App\Repositories\BookingRepository',
+            'App\Interfaces\FairActivityInterface',
+            'App\Repositories\FairActivityRepository'
         );
     }
 

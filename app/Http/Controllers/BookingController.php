@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Repositories\BookingRepository;
+use Illuminate\Support\Facades\Response;
+use App\Repositories\FairActivityRepository;
 
 class BookingController extends Controller
 {
 
     protected BookingRepository $bookingRepository;
+    protected FairActivityRepository $fairActivityRepository;
 
-    public function __construct(BookingRepository $bookingRepository)
+    public function __construct(BookingRepository $bookingRepository, FairActivityRepository $fairActivityRepository)
     {
         $this->bookingRepository = $bookingRepository;
+        $this->fairActivityRepository = $fairActivityRepository;
     }
 
     public function index()
@@ -34,8 +38,21 @@ class BookingController extends Controller
      */
     public function store($fairActivity)
     {
-        $this->bookingRepository->create($fairActivity);
-        return redirect()->route('fair.index');
+        $fairActivity = $this->fairActivityRepository->findOne($fairActivity);
+        try {
+            $result = $this->bookingRepository->create($fairActivity);
+            if ($result) {
+                $capacityPercentage  = $fairActivity->capacityPercentage();
+                return response()->json([
+                    'fairActivity' => $fairActivity,
+                    'percentageBooked' => $capacityPercentage
+                ]);
+            } else {
+                return Response::json(['success' => false, 'message' => 'Booking failed'], 500);
+            }
+        } catch (\Exception $e) {
+            return Response::json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 
     /**

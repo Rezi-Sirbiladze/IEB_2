@@ -50,6 +50,11 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
+    public function pendingBookings()
+    {
+        return $this->bookings()->where('status', 'pending');
+    }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);

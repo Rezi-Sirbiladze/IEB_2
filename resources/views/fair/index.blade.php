@@ -97,7 +97,41 @@
             background: #888;
             border-radius: 5px;
         }
+
+        #offcanvas-navbar-toggler {
+            position: fixed;
+            bottom: 20px;
+
+            left: 50%;
+            transform: translateX(-50%);
+        }
     </style>
+    <!-- Button to open the shopping cart -->
+    <button id="offcanvas-navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon">👍</span>
+    </button>
+
+    <div class="container-fluid">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Pending Bookings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                @foreach (auth()->user()->pendingBookings as $booking)
+                    <li>
+                        {{ $booking->fairActivity->activity->name }} -
+                        <span id="booking-{{ $booking->id }}-status">Pending</span>
+                        <button class="btn btn-primary confirm-booking"
+                            data-booking-id="{{ $booking->id }}">Confirm</button>
+                    </li>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+
 
     <div class="schedule text-center">
         <div class="box text-center bg-info text-white">
@@ -110,12 +144,12 @@
                         <p class="start-time">{{ $startTime }}</p>
                         @foreach ($fair->fairActivities->where('start_time', $startTime) as $fairActivity)
                             <div class="activity">
-                                <a href="{{ route('book', $fairActivity->id) }}" class="btn2">
+                                <button class="btn2 book-btn" data-fair-activity-id="{{ $fairActivity->id }}">
                                     {{ $fairActivity->activity->name }}
-                                </a>
+                                </button>
                                 <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar"
-                                        style="width: {{ $fairActivity->capacityPercentage() }}%;"
+                                    <div id="progress-bar-{{ $fairActivity->id }}" class="progress-bar bg-success"
+                                        role="progressbar" style="width: {{ $fairActivity->capacityPercentage() }}%;"
                                         aria-valuenow="{{ $fairActivity->capacityPercentage() }}" aria-valuemin="0"
                                         aria-valuemax="{{ $fairActivity->capacity }}">
                                     </div>
@@ -130,8 +164,6 @@
             <p>Activitat conjunta hora</p>
         </div>
     </div>
-
-
 
     <hr class="mt-5 mb-5">
 
@@ -245,7 +277,8 @@
                 <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nom complet">
             </div>
             <div class="mb-3">
-                <input type="email" class="form-control" id="exampleFormControlInput2" placeholder="Correu electrònic">
+                <input type="email" class="form-control" id="exampleFormControlInput2"
+                    placeholder="Correu electrònic">
             </div>
             <div class="mb-3">
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Hola :D"></textarea>
@@ -257,18 +290,41 @@
     </div>
 
     <script>
+        function updateProgressBar(activityId, percentageBooked) {
+            $('#progress-bar-' + activityId).css('width', percentageBooked + '%').attr('aria-valuenow', percentageBooked);
+        }
+
+        $(document).ready(function() {
+            $('.book-btn').click(function() {
+                var fairActivityId = $(this).data('fair-activity-id');
+                $.ajax({
+                    type: 'GET',
+                    url: '{{ route('book', ':fairActivity') }}'.replace(':fairActivity',
+                        fairActivityId),
+                    success: function(response) {
+                        console.log(response);
+                        var percentageBooked = response.percentageBooked;
+                        updateProgressBar(fairActivityId, percentageBooked);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+
         document.addEventListener("DOMContentLoaded", function() {
             const activities = document.querySelectorAll(".activity");
             activities.forEach(function(activity) {
                 activity.addEventListener("click", function() {
                     const descriptionId = this.dataset.description;
-                    const descriptions = document.querySelectorAll(".activity-description");
+                    const descriptions = document.querySelectorAll(
+                        ".activity-description");
                     descriptions.forEach(function(description) {
                         description.style.display = "none";
                     });
                     const descriptionToShow = document.getElementById(descriptionId);
                     descriptionToShow.style.display = "block";
-
                     activities.forEach(function(act) {
                         act.classList.remove("active");
                     });
