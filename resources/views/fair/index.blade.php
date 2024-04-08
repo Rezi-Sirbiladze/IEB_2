@@ -101,16 +101,139 @@
         #offcanvas-navbar-toggler {
             position: fixed;
             bottom: 20px;
-
+            z-index: 1;
             left: 50%;
             transform: translateX(-50%);
+        }
+
+        .start-time {
+            position: sticky;
+            top: 111px;
+            z-index: 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .button1 {
+            background: none;
+            border: none;
+        }
+
+        .button1 .bloom-container {
+            position: relative;
+            transition: all 0.2s ease-in-out;
+            border: none;
+            background: none;
+        }
+
+        .button1 .bloom-container .button-container-main {
+            width: 110px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            display: grid;
+            place-content: center;
+            border-right: 5px solid white;
+            border-left: 5px solid rgba(128, 128, 128, 0.147);
+            transform: rotate(-45deg);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .button1 .bloom-container .button-container-main .button-inner {
+            height: 60px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: rgba(100, 100, 111, 0.5) -10px 5px 10px 0px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .button1 .bloom-container .button-container-main .button-inner .back {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: linear-gradient(60deg, rgb(1, 85, 103) 0%, rgb(147, 245, 255) 100%);
+        }
+
+        .button1 .bloom-container .button-container-main .button-inner .front {
+            position: absolute;
+            inset: 5px;
+            border-radius: 50%;
+            background: linear-gradient(60deg, rgb(0, 103, 140) 0%, rgb(58, 209, 233) 100%);
+            display: grid;
+            place-content: center;
+        }
+
+        .button1 .bloom-container .button-container-main .button-inner .front img {
+            fill: #ffffff;
+            opacity: 0.5;
+            width: 30px;
+            aspect-ratio: 1;
+            transform: rotate(45deg);
+            transition: all 0.2s ease-in;
+        }
+
+        .button1 .bloom-container .button-container-main .button-glass {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.888) 100%);
+            transform: translate(0%, -50%) rotate(0deg);
+            transform-origin: bottom center;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .button1 .bloom-container .bloom {
+            height: 1px;
+            width: 1px;
+            position: absolute;
+            background: white;
+        }
+
+        .button1 .bloom-container:hover {
+            transform: scale(1.1);
+        }
+
+        .button1 .bloom-container:hover .button-container-main .button-glass {
+            transform: translate(0%, -40%);
+        }
+
+        .button1 .bloom-container:hover .button-container-main .button-inner .front .svg {
+            opacity: 1;
+            filter: drop-shadow(0 0 10px white);
+        }
+
+        .button1 .bloom-container:active {
+            transform: scale(0.7);
+        }
+
+        .button1 .bloom-container:active .button-container-main .button-inner {
+            transform: scale(1.2);
         }
     </style>
     <!-- Button to open the shopping cart -->
     <button id="offcanvas-navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
         data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon">👍</span>
+        <span class="button1">
+            <div class="bloom-container">
+                <div class="button-container-main">
+                    <div class="button-inner">
+                        <div class="back"></div>
+                        <div class="front">
+                            <img src="{{asset('svg/ok.svg')}}" alt="Description">
+                        </div>
+                    </div>
+                    <div class="button-glass">
+                        <div class="back"></div>
+                        <div class="front"></div>
+                    </div>
+                </div>
+        </span>
     </button>
+
 
     <div class="container-fluid">
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -118,19 +241,38 @@
                 <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Pending Bookings</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body">
-                @foreach (auth()->user()->pendingBookings as $booking)
-                    <li>
-                        {{ $booking->fairActivity->activity->name }} -
-                        <span id="booking-{{ $booking->id }}-status">Pending</span>
-                        <button class="btn btn-primary confirm-booking"
-                            data-booking-id="{{ $booking->id }}">Confirm</button>
-                    </li>
-                @endforeach
+            <div class="offcanvas-body" id="offcanvasBody">
+                @if (auth()->user())
+                    @if (auth()->user()->pendingBookings->isNotEmpty())
+                        <button class="btn btn-primary w-100" id="confirmAll">RESERVAR</button>
+                    @endif
+                    @foreach (auth()->user()->pendingBookings as $booking)
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{{ asset('img/' . $booking->fairActivity->activity->image_path) }}"
+                                        class="img-fluid rounded-start" alt="Fair Activity Image">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $booking->fairActivity->activity->name }} |
+                                            {{ $booking->fairActivity->start_time }}</h5>
+                                        <p class="card-text">
+                                        <p style="font-size: 1rem">
+                                            {{ $booking->fairActivity->activity->description }}
+                                        </p>
+                                        </p>
+                                        <button class="btn btn-danger w-100"
+                                            data-booking-id="{{ $booking->id }}">Eliminar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>
-
 
 
     <div class="schedule text-center">
@@ -289,11 +431,27 @@
         </div>
     </div>
 
-    <script>
-        function updateProgressBar(activityId, percentageBooked) {
-            $('#progress-bar-' + activityId).css('width', percentageBooked + '%').attr('aria-valuenow', percentageBooked);
-        }
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert" id="errorMessage"></div>
+                    <!-- Placeholder for error message -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        // Booking
         $(document).ready(function() {
             $('.book-btn').click(function() {
                 var fairActivityId = $(this).data('fair-activity-id');
@@ -303,23 +461,38 @@
                         fairActivityId),
                     success: function(response) {
                         console.log(response);
-                        var percentageBooked = response.percentageBooked;
-                        updateProgressBar(fairActivityId, percentageBooked);
+
+                        var booking = response.booking;
+                        var bookingHtml = '<li>' +
+                            response.fairAcityvityName + ' - ' + response.fairActivity
+                            .start_time + ' - ' +
+                            '<span id="booking-' + response.booking.id +
+                            '-status">Pending</span>' +
+                            '<button class="btn btn-primary" data-booking-id="' +
+                            response.booking.id + '">Confirm</button>' +
+                            '</li>';
+                        $('#offcanvasBody').append(bookingHtml);
                     },
                     error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
+                        if (error === 'Unauthorized') {
+                            window.location.href = '/login';
+                        }
+
+                        var errorMessage = xhr.responseJSON.message;
+                        $('#errorMessage').html(errorMessage);
+                        $('#errorModal').modal('show');
                     }
                 });
             });
         });
 
+        // Images
         document.addEventListener("DOMContentLoaded", function() {
             const activities = document.querySelectorAll(".activity");
             activities.forEach(function(activity) {
                 activity.addEventListener("click", function() {
                     const descriptionId = this.dataset.description;
-                    const descriptions = document.querySelectorAll(
-                        ".activity-description");
+                    const descriptions = document.querySelectorAll(".activity-description");
                     descriptions.forEach(function(description) {
                         description.style.display = "none";
                     });

@@ -47,11 +47,11 @@ class BookingRepository implements BookingInterface
             ->first();
 
         if ($existingBookingActivity) {
-            throw new \Exception('Sorry, you cannot book this activity as you already have a booking for it.');
+            throw new \Exception('No pots apunta\'t en la mateixa activitat.');
         }
 
         if ($existingBookingTime) {
-            throw new \Exception('Sorry, you cannot book at this time due to a time conflict.');
+            throw new \Exception('No pots apunta\'t a dues activitats al mateix temps.');
         }
 
         $bookingData = [

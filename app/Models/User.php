@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     public function pendingBookings()
     {
-        return $this->bookings()->where('status', 'pending');
+        return $this->bookings()->where('status', 'pending')->orderBy('created_at', 'ASC');
     }
 
     public function reviews()

@@ -40,15 +40,17 @@ class BookingController extends Controller
     {
         $fairActivity = $this->fairActivityRepository->findOne($fairActivity);
         try {
-            $result = $this->bookingRepository->create($fairActivity);
-            if ($result) {
+            $booking = $this->bookingRepository->create($fairActivity);
+            if ($booking) {
                 $capacityPercentage  = $fairActivity->capacityPercentage();
                 return response()->json([
+                    'booking' => $booking,
+                    'percentageBooked' => $capacityPercentage,
                     'fairActivity' => $fairActivity,
-                    'percentageBooked' => $capacityPercentage
+                    'fairAcityvityName' => $fairActivity->activity->name,
                 ]);
             } else {
-                return Response::json(['success' => false, 'message' => 'Booking failed'], 500);
+                return Response::json(['success' => false, 'message' => 'La reserva ha fallat'], 500);
             }
         } catch (\Exception $e) {
             return Response::json(['success' => false, 'message' => $e->getMessage()], 500);
