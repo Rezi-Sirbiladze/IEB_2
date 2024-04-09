@@ -108,6 +108,11 @@
         <main>
             <div id="page-content" class="mt-0">
                 <div class="container-xxl">
+                    @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                     @yield('content')
                 </div>
             </div>

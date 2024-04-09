@@ -87,9 +87,26 @@ class BookingRepository implements BookingInterface
         return $booking->save();
     }
 
-    public function delete(int $id): void
+    public function delete(Booking $booking): void
     {
-        $register = $this->model->findOrFail($id);
-        $register->delete($id);
+        $booking->delete();
+    }
+
+    public function confirmBookings(): Collection
+    {
+        $pendingBookings = auth()->user()->pendingBookings;
+        if ($pendingBookings->count() == 4) {
+            $pendingBookings->each(function ($booking) {
+                $booking->status = 'confirmed';
+                $booking->save();
+            });
+        } elseif ($pendingBookings->count() < 4){
+            throw new \Exception('No pots confirmar menys de 4 reserves.');
+        } elseif ($pendingBookings->count() > 4) {
+            throw new \Exception('No pots confirmar més de 4 reserves.');
+        }
+
+
+        return $pendingBookings;
     }
 }

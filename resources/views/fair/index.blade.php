@@ -223,7 +223,7 @@
                     <div class="button-inner">
                         <div class="back"></div>
                         <div class="front">
-                            <img src="{{asset('svg/ok.svg')}}" alt="Description">
+                            <img src="{{ asset('svg/ok.svg') }}" alt="Description">
                         </div>
                     </div>
                     <div class="button-glass">
@@ -238,14 +238,12 @@
     <div class="container-fluid">
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Pending Bookings</h5>
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Reserves pendents</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body" id="offcanvasBody">
                 @if (auth()->user())
-                    @if (auth()->user()->pendingBookings->isNotEmpty())
-                        <button class="btn btn-primary w-100" id="confirmAll">RESERVAR</button>
-                    @endif
+                    <a href="{{ route('booking.confirm') }}" class="btn btn-primary w-100">RESERVAR</a>
                     @foreach (auth()->user()->pendingBookings as $booking)
                         <div class="card mb-3">
                             <div class="row g-0">
@@ -262,8 +260,8 @@
                                             {{ $booking->fairActivity->activity->description }}
                                         </p>
                                         </p>
-                                        <button class="btn btn-danger w-100"
-                                            data-booking-id="{{ $booking->id }}">Eliminar</button>
+                                        <a href="{{ route('booking.delete', $booking->id) }}"
+                                            data-booking-id="{{ $booking->id }}" class="btn btn-danger w-100">Eliminar</a>
                                     </div>
                                 </div>
                             </div>
@@ -457,20 +455,32 @@
                 var fairActivityId = $(this).data('fair-activity-id');
                 $.ajax({
                     type: 'GET',
-                    url: '{{ route('book', ':fairActivity') }}'.replace(':fairActivity',
+                    url: '{{ route('booking.store', ':fairActivity') }}'.replace(':fairActivity',
                         fairActivityId),
                     success: function(response) {
-                        console.log(response);
-
-                        var booking = response.booking;
-                        var bookingHtml = '<li>' +
-                            response.fairAcityvityName + ' - ' + response.fairActivity
-                            .start_time + ' - ' +
-                            '<span id="booking-' + response.booking.id +
-                            '-status">Pending</span>' +
-                            '<button class="btn btn-primary" data-booking-id="' +
-                            response.booking.id + '">Confirm</button>' +
-                            '</li>';
+                        var deleteUrl =
+                            '{{ route('booking.delete', ['booking' => ':booking']) }}'.replace(
+                                ':booking', response.booking.id);
+                        var bookingHtml = '<div class="card mb-3">' +
+                            '<div class="row g-0">' +
+                            '<div class="col-md-4">' +
+                            '<img src="' + '{{ asset('img') }}' + '/' + response.activity
+                            .image_path +
+                            '" class="img-fluid rounded-start" alt="Fair Activity Image">' +
+                            '</div>' +
+                            '<div class="col-md-8">' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">' + response.activity.name + ' | ' +
+                            response.fairActivity.start_time + '</h5>' +
+                            '<p class="card-text">' +
+                            '<p style="font-size: 1rem">' + response.activity.description +
+                            '</p>' +
+                            '</p>' + '<a href="' + deleteUrl +
+                            '" class="btn btn-danger w-100">Eliminar</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
                         $('#offcanvasBody').append(bookingHtml);
                     },
                     error: function(xhr, status, error) {

@@ -14,5 +14,5 @@ interface BookingInterface
     public function create(FairActivity $fairActivity): Booking;
     public function update(array $data, int $id): Booking;
     public function save(Booking $booking): bool;
-    public function delete(int $id): void;
+    public function delete(Booking $booking): void;
 }

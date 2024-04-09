@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('fair_activity_id')->constrained()->cascadeOnDelete();
             $table->boolean('presented')->default(false);
-            $table->enum('status', ['pending', 'approved'])->default('pending');
+            $table->enum('status', ['pending', 'confirmed'])->default('pending');
             $table->timestamps();
         });
     }

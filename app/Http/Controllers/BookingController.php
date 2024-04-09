@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\FairActivity;
 use Illuminate\Http\Request;
 use App\Repositories\BookingRepository;
 use Illuminate\Support\Facades\Response;
@@ -25,6 +26,17 @@ class BookingController extends Controller
         //
     }
 
+    public function confirm()
+    {
+        try {
+            $result = $this->bookingRepository->confirmBookings();
+            return redirect()->route('dashboard')->with('success', 'Reserves confirmades correctament');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -36,9 +48,8 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store($fairActivity)
+    public function store(FairActivity $fairActivity)
     {
-        $fairActivity = $this->fairActivityRepository->findOne($fairActivity);
         try {
             $booking = $this->bookingRepository->create($fairActivity);
             if ($booking) {
@@ -47,7 +58,7 @@ class BookingController extends Controller
                     'booking' => $booking,
                     'percentageBooked' => $capacityPercentage,
                     'fairActivity' => $fairActivity,
-                    'fairAcityvityName' => $fairActivity->activity->name,
+                    'activity' => $fairActivity->activity,
                 ]);
             } else {
                 return Response::json(['success' => false, 'message' => 'La reserva ha fallat'], 500);
@@ -86,6 +97,7 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        //
+        $this->bookingRepository->delete($booking);
+        return redirect()->back()->with('success', 'Reserva eliminada correctament');
     }
 }

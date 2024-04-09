@@ -25,8 +25,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('book/{fairActivity}', [BookingController::class, 'store'])->name('book');
-    Route::get('configmBooking', [BookingController::class, 'store'])->name('configBooking');
+    Route::get('bookings/confirm', [BookingController::class, 'confirm'])->name('booking.confirm');
+    Route::get('booking/{fairActivity}', [BookingController::class, 'store'])->name('booking.store');
+    Route::get('booking/delete/{booking}', [BookingController::class, 'destroy'])->name('booking.delete');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
