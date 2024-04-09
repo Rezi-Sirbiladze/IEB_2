@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\FairRepository;
 use App\Repositories\ActivityRepository;
 
-class FairController extends Controller
+class UserController extends Controller
 {
     protected ActivityRepository $activityRepository;
     protected FairRepository $fairRepository;
@@ -18,24 +18,9 @@ class FairController extends Controller
         $this->fairRepository = $fairRepository;
     }
 
-
     public function index()
     {
-        $fair = $this->fairRepository->findOneByActived();
-        $startTimes = $fair->fairActivities->groupBy('start_time')->keys();
-        $activities = $this->activityRepository->findAll();
-        return view('fair.index', compact('activities', 'fair', 'startTimes'));
-    }
-
-    public function activities()
-    {
-        $activities = $this->activityRepository->findAll();
-        return view('fair.activities', compact('activities'));
-    }
-
-    public function location()
-    {
-        return view('fair.location');
+        //
     }
 
     public function create()

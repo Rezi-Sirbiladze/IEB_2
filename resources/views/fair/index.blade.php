@@ -43,6 +43,11 @@
             }
         }
 
+        .activities-container {
+            height: 350px;
+            overflow-y: auto;
+        }
+
         .image-container {
             position: relative;
             display: inline-block;
@@ -62,6 +67,15 @@
             border-radius: 16px;
         }
 
+        .image-wrapper {
+            position: relative;
+        }
+
+        .image-wrapper:hover .blur-on-hover {
+            filter: blur(5px);
+            transition: filter 0.5s ease;
+        }
+
         .scrollable-caption {
             position: absolute;
             top: 0;
@@ -70,32 +84,16 @@
             background-color: rgba(255, 255, 255, 0.8);
             padding: 10px;
             display: none;
-            opacity: 0;
             overflow-y: auto;
             max-height: 100%;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .image-container:hover .scrollable-caption {
             display: block;
             opacity: 1;
-        }
-
-        .activities-container {
-            height: 350px;
-            overflow-y: auto;
-        }
-
-        .activities-container::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        .activities-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        .activities-container::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 5px;
         }
 
         #offcanvas-navbar-toggler {
@@ -243,7 +241,7 @@
             </div>
             <div class="offcanvas-body" id="offcanvasBody">
                 @if (auth()->user())
-                    <a href="{{ route('booking.confirm') }}" class="btn btn-primary w-100">RESERVAR</a>
+                    <a href="{{ route('booking.confirm') }}" class="btn1 w-100 text-center">RESERVAR</a>
                     @foreach (auth()->user()->pendingBookings as $booking)
                         <div class="card mb-3">
                             <div class="row g-0">
@@ -283,7 +281,7 @@
                     <div>
                         <p class="start-time">{{ $startTime }}</p>
                         @foreach ($fair->fairActivities->where('start_time', $startTime) as $fairActivity)
-                            <div class="activity">
+                            <div>
                                 <button class="btn2 book-btn" data-fair-activity-id="{{ $fairActivity->id }}">
                                     {{ $fairActivity->activity->name }}
                                 </button>
@@ -330,13 +328,15 @@
                         @foreach ($activities as $key => $activity)
                             <div id="description_{{ $activity->id }}"
                                 class="activity-description {{ $key === 0 ? 'active' : '' }}">
-                                <figure class="image-container">
-                                    <img src="{{ asset('img/' . $activity->image_path) }}" alt="Mountains"
-                                        class="img-fluid w-100">
-                                    <figcaption class="scrollable-caption">
-                                        <p>{{ $activity->description }}</p>
-                                    </figcaption>
-                                </figure>
+                                <div class="image-wrapper">
+                                    <figure class="image-container">
+                                        <img src="{{ asset('img/' . $activity->image_path) }}" alt="Mountains"
+                                            class="img-fluid w-100 blur-on-hover">
+                                        <figcaption class="scrollable-caption">
+                                            <p>{{ $activity->description }}</p>
+                                        </figcaption>
+                                    </figure>
+                                </div>
                             </div>
                         @endforeach
                     </div>
@@ -363,40 +363,83 @@
                         </iframe>
                     </div>
                 </div>
-                <div class="col-md border-start">
+                <div class="col-md border-start text-center">
                     <div style="padding: 10px;">
-                        <ul style="list-style: none; padding-left: 0;">
-                            <li>
-                                <strong>
-                                    <i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>
-                                    Direcció
-                                </strong> Foc, 132
-                            </li>
-                            <li>
-                                <strong>
-                                    <i class="fas fa-map-marked" style="margin-right: 5px;"></i>
-                                    Districte
-                                </strong> Sants-Montjuïc
-                            </li>
-                            <li>
-                                <strong>
-                                    <i class="fas fa-city" style="margin-right: 5px;"></i>
-                                    Barri
-                                </strong> El Poble-sec
-                            </li>
-                            <li>
-                                <strong>
-                                    <i class="fas fa-building" style="margin-right: 5px;"></i>
-                                    Ciutat
-                                </strong> Barcelona
-                            </li>
-                            <li>
-                                <strong>
-                                    <i class="fas fa-phone" style="margin-right: 5px;"></i>
-                                    Telèfon
-                                </strong> 692 12 76 27
-                            </li>
-                        </ul>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i>
+                                    </div>
+                                    <div class="col">
+                                        <strong>Direcció</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                Foc, 132
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fas fa-map-marked" style="margin-right: 5px;"></i>
+                                    </div>
+                                    <div class="col">
+                                        <strong>Districte</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                Sants-Montjuïc
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fas fa-city" style="margin-right: 5px;"></i>
+                                    </div>
+                                    <div class="col">
+                                        <strong>Barri</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                El Poble-sec
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fas fa-building" style="margin-right: 5px;"></i>
+                                    </div>
+                                    <div class="col">
+                                        <strong>Ciutat</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                Barcelona
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fas fa-phone" style="margin-right: 5px;"></i>
+                                    </div>
+                                    <div class="col">
+                                        <strong>Telèfon</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                692 12 76 27
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -496,22 +539,38 @@
             });
         });
 
-        // Images
         document.addEventListener("DOMContentLoaded", function() {
             const activities = document.querySelectorAll(".activity");
+            const container = document.querySelector(".activities-container");
+
             activities.forEach(function(activity) {
                 activity.addEventListener("click", function() {
                     const descriptionId = this.dataset.description;
                     const descriptions = document.querySelectorAll(".activity-description");
+                    const descriptionToShow = document.getElementById(descriptionId);
+
                     descriptions.forEach(function(description) {
                         description.style.display = "none";
                     });
-                    const descriptionToShow = document.getElementById(descriptionId);
+
+                    descriptions.forEach(function(description) {
+                        description.style.display = "none";
+                    });
                     descriptionToShow.style.display = "block";
                     activities.forEach(function(act) {
                         act.classList.remove("active");
                     });
                     this.classList.add("active");
+
+                    // Scroll the container to the position of the selected activity
+                    const containerRect = container.getBoundingClientRect();
+                    const activityRect = this.getBoundingClientRect();
+                    const offset = activityRect.top - containerRect.top - (containerRect.height /
+                        2 - activityRect.height / 2);
+                    container.scrollBy({
+                        top: offset,
+                        behavior: 'smooth'
+                    });
                 });
             });
         });

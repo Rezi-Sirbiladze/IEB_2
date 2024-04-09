@@ -87,6 +87,19 @@
             border-radius: 0px 0px 5px 5px;
             animation: pulse 1s infinite alternate;
         }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f100;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 5px;
+        }
     </style>
 
 </head>
@@ -109,10 +122,10 @@
             <div id="page-content" class="mt-0">
                 <div class="container-xxl">
                     @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     @yield('content')
                 </div>
             </div>

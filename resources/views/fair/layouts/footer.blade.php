@@ -1,4 +1,4 @@
-<footer class="container-fluid bg-dark text-light py-5">
+<footer class="container-fluid bg-dark text-light py-5" style="position: absolute; width: 100%; z-index: 1;">
     <div class="row justify-content-between align-items-center">
         <div class="col-md-4 text-center">
             <img src="https://agora.xtec.cat/ins-esport/wp-content/uploads/usu2109/2023/01/Logo-IEB-300x129.png"
