@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/IEBLogo.jpg') }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -72,6 +73,22 @@
             width: 100%;
             margin-top: 20px;
             border-radius: 5px 5px 0px 0px;
+        }
+
+        .btn2Pending {
+            background-color: #002e35;
+            color: white;
+            padding: 12px 40px;
+            text-decoration: none;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 1.5rem;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 5px 5px 0px 0px;
+
         }
 
         .btn2:hover {

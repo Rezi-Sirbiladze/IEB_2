@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\BookingInterface;
 use App\Models\Booking;
+use App\Models\Fair;
 use App\Models\FairActivity;
 use Illuminate\Support\Collection;
 
@@ -100,13 +101,21 @@ class BookingRepository implements BookingInterface
                 $booking->status = 'confirmed';
                 $booking->save();
             });
-        } elseif ($pendingBookings->count() < 4){
+        } elseif ($pendingBookings->count() < 4) {
             throw new \Exception('No pots confirmar menys de 4 reserves.');
         } elseif ($pendingBookings->count() > 4) {
             throw new \Exception('No pots confirmar més de 4 reserves.');
         }
-
-
         return $pendingBookings;
+    }
+
+    public function deleteFairUserBookings(Fair $fair): void
+    {
+        $this->model
+            ->where('user_id', auth()->id())
+            ->whereHas('fairActivity', function ($query) use ($fair) {
+                $query->where('fair_id', $fair->id);
+            })
+            ->delete();
     }
 }

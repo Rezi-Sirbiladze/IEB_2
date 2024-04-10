@@ -9,7 +9,7 @@
 
     <style>
         .activities-container {
-            height: 350px;
+            max-height: 350px;
             overflow-y: auto;
         }
 
@@ -26,7 +26,7 @@
     </style>
 
     <div class="row justify-content-center">
-        @foreach ($activities as $activity)
+        @foreach ($activities as $key => $activity)
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="image-container2">
@@ -35,11 +35,23 @@
                     </div>
                     <div class="card-header1 card-header text-center">
                         <h5 class="card-title">{{ $activity->name }}</h5>
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapse{{ $key }}" aria-expanded="false"
+                            aria-controls="flush-collapse{{ $key }}">
+                            LLegir
+                        </button>
                     </div>
                     <div class="card-body">
                         <div class="activities-container">
-                            <div class="list-group">
-                                <p class="mb-1">{{ $activity->description }}</p>
+                            <div class="accordion-item">
+                                <div id="flush-collapse{{ $key }}" class="accordion-collapse collapse"
+                                    data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="list-group">
+                                            <p class="mb-1">{{ $activity->description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

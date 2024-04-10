@@ -47,16 +47,31 @@ class User extends Authenticatable
 
     public function bookings()
     {
-        return $this->hasMany(Booking::class)->orderBy('created_at', 'ASC');
+        return $this->hasMany(Booking::class);
     }
 
     public function pendingBookings()
     {
-        return $this->bookings()->where('status', 'pending')->orderBy('created_at', 'ASC');
+        return $this->bookings()->select('bookings.*')
+            ->where('status', 'pending')
+            ->join('fair_activities', 'bookings.fair_activity_id', '=', 'fair_activities.id')
+            ->orderBy('fair_activities.start_time', 'ASC');
     }
 
+    public function confirmedBookings()
+    {
+        return $this->bookings()->select('bookings.*')
+            ->where('status', 'confirmed')
+            ->join('fair_activities', 'bookings.fair_activity_id', '=', 'fair_activities.id')
+            ->orderBy('fair_activities.start_time', 'ASC');
+    }
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function getFirstname()
+    {
+        return explode(' ', $this->name)[0];
     }
 }

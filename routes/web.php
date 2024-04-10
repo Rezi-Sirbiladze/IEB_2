@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::get('booking/{fairActivity}', [BookingController::class, 'store'])->name('booking.store');
     Route::get('booking/delete/{booking}', [BookingController::class, 'destroy'])->name('booking.delete');
 
+    Route::get('user/{fair}/bookings/delete', [BookingController::class, 'destroyFairUserBookings'])->name('user.deletefairBookings');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

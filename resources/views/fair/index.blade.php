@@ -229,6 +229,14 @@
                         <div class="front"></div>
                     </div>
                 </div>
+                @if (auth()->user())
+                    <span id="badgeActivities"
+                        class="position-absolute top-0 translate-middle badge rounded-pill bg-danger">
+                        {{ auth()->user()->pendingBookings->count() }}
+                        <span class="visually-hidden">Activitats</span>
+                    </span>
+                @endif
+            </div>
         </span>
     </button>
 
@@ -241,7 +249,7 @@
             </div>
             <div class="offcanvas-body" id="offcanvasBody">
                 @if (auth()->user())
-                    <a href="{{ route('booking.confirm') }}" class="btn1 w-100 text-center">RESERVAR</a>
+                    <a href="{{ route('booking.confirm') }}" class="btn1 w-100 text-center mb-2">RESERVAR</a>
                     @foreach (auth()->user()->pendingBookings as $booking)
                         <div class="card mb-3">
                             <div class="row g-0">
@@ -273,7 +281,7 @@
 
     <div class="schedule text-center">
         <div class="box text-center bg-info text-white">
-            <p>Check in | Benvinguda hora</p>
+            <p>Check in | Benvinguda</p>
         </div>
         <div class="row gap-3">
             @foreach ($startTimes as $startTime)
@@ -282,7 +290,9 @@
                         <p class="start-time">{{ $startTime }}</p>
                         @foreach ($fair->fairActivities->where('start_time', $startTime) as $fairActivity)
                             <div>
-                                <button class="btn2 book-btn" data-fair-activity-id="{{ $fairActivity->id }}">
+                                <button id="fairActivityButton{{ $fairActivity->id }}"
+                                    class="@if (in_array($fairActivity->id, $bookedActivities)) btn2Pending @else btn2 @endif book-btn"
+                                    data-fair-activity-id="{{ $fairActivity->id }}">
                                     {{ $fairActivity->activity->name }}
                                 </button>
                                 <div class="progress">
@@ -299,7 +309,7 @@
             @endforeach
         </div>
         <div class="box text-center bg-info text-white">
-            <p>Activitat conjunta hora</p>
+            <p>Activitat conjunta</p>
         </div>
     </div>
 
@@ -496,6 +506,7 @@
         $(document).ready(function() {
             $('.book-btn').click(function() {
                 var fairActivityId = $(this).data('fair-activity-id');
+                var buttonId = '#fairActivityButton' + fairActivityId;
                 $.ajax({
                     type: 'GET',
                     url: '{{ route('booking.store', ':fairActivity') }}'.replace(':fairActivity',
@@ -525,12 +536,17 @@
                             '</div>' +
                             '</div>';
                         $('#offcanvasBody').append(bookingHtml);
+
+                        var badgeActivities = $('#badgeActivities');
+                        var currentCount = parseInt(badgeActivities.text());
+                        badgeActivities.text(currentCount + 1);
+
+                        $(buttonId).removeClass('btn2').addClass('btn2Pending');
                     },
                     error: function(xhr, status, error) {
                         if (error === 'Unauthorized') {
                             window.location.href = '/login';
                         }
-
                         var errorMessage = xhr.responseJSON.message;
                         $('#errorMessage').html(errorMessage);
                         $('#errorModal').modal('show');

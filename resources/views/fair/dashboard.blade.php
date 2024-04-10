@@ -1,7 +1,7 @@
 @extends('fair.layouts.app')
-@section('title', 'Perfil')
+@section('title', 'Tauler')
 
-@section('pageTitle', 'Hola, ' . auth()->user()->name)
+@section('pageTitle', 'Hola, ' . auth()->user()->getFirstname())
 @section('pageContent')
 @endsection
 @section('content')
@@ -26,9 +26,32 @@
     </style>
 
     <div class="row justify-content-center">
-        @foreach (auth()->user()->bookings as $key => $booking)
+        <div class="col-md-12 mb-4 mt-5">
+            @if (auth()->user()->bookings->count() == 0)
+                <div class="alert alert-info text-center">No tens cap activitat reservat</div>
+            @else
+                <div class="row text-center">
+                    <h2>Recorda que es fara:</h2>
+                    <div class="box text-center bg-info text-white rounded">
+                        <p>Check in | Benvinguda 30 minuts abans</p>
+                    </div>
+                    <div class="box text-center bg-info text-white rounded mt-4">
+                        <p>Activitat conjunta al final de la fira</p>
+                    </div>
+
+                    <div class="box text-center mt-4">
+                        @if (auth()->user()->confirmedBookings->count() > 0)
+                            <a href="{{ route('user.deletefairBookings', 1) }}" class="btn btn-danger">Cancel·lar totes les
+                                activitats</a>
+                        @endif
+                    </div>
+                </div>
+            @endif
+        </div>
+
+        @foreach (auth()->user()->confirmedBookings as $key => $booking)
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card mt-5">
                     <div class="image-container2">
                         <img src="{{ asset('img/' . $booking->fairActivity->activity->image_path) }}" class="card-img-top"
                             alt="{{ $booking->fairActivity->activity->name }}">
@@ -59,6 +82,7 @@
                 </div>
             </div>
         @endforeach
+
     </div>
 
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\FairActivity;
+use App\Models\Fair;
 use Illuminate\Http\Request;
 use App\Repositories\BookingRepository;
 use Illuminate\Support\Facades\Response;
@@ -31,7 +32,16 @@ class BookingController extends Controller
         try {
             $result = $this->bookingRepository->confirmBookings();
             return redirect()->route('dashboard')->with('success', 'Reserves confirmades correctament');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 
+    public function destroyFairUserBookings(Fair $fair)
+    {
+        try {
+            $this->bookingRepository->deleteFairUserBookings($fair);
+            return redirect()->back()->with('success', 'Reserves eliminades correctament');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

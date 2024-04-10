@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Validator::extend('allowed_email_domains', function ($attribute, $value, $parameters, $validator) {
+            $allowedDomains = ['@ieb.cat', '@institutaliments.barcelona', 'aites@gmail.com'];
+
+            foreach ($allowedDomains as $domain) {
+                if (Str::contains($value, $domain)) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+        'El domini de correu electrònic no està permès.');
     }
 }
