@@ -47,6 +47,20 @@ class BookingRepository implements BookingInterface
             ->with('fairActivity')
             ->first();
 
+        $existingBookingsCount = $this->model
+            ->whereHas('fairActivity', function ($query) use ($fairActivity) {
+                $query->where('fair_id', $fairActivity->fair_id)
+                    ->where('activity_id', $fairActivity->activity_id);
+            })
+            ->where('status', 'confirmed')
+            ->count();
+
+        $maxCapacity = $fairActivity->capacity;
+
+        if ($existingBookingsCount >= $maxCapacity) {
+            throw new \Exception('La activitat ja està plena. No pots apuntar-t\'hi.');
+        }
+
         if ($existingBookingActivity) {
             throw new \Exception('No pots apunta\'t en la mateixa activitat.');
         }
@@ -96,16 +110,35 @@ class BookingRepository implements BookingInterface
     public function confirmBookings(): Collection
     {
         $pendingBookings = auth()->user()->pendingBookings;
-        if ($pendingBookings->count() == 4) {
-            $pendingBookings->each(function ($booking) {
-                $booking->status = 'confirmed';
-                $booking->save();
-            });
-        } elseif ($pendingBookings->count() < 4) {
+        
+        if ($pendingBookings->count() < 4) {
             throw new \Exception('No pots confirmar menys de 4 reserves.');
         } elseif ($pendingBookings->count() > 4) {
             throw new \Exception('No pots confirmar més de 4 reserves.');
         }
+
+        foreach ($pendingBookings as $booking) {
+            if ($booking->fairActivity->capacity <= $booking->fairActivity->confirmedBookings->count()) {
+                $fullActivities[] = [
+                    'name' => $booking->fairActivity->activity->name,
+                    'start_time' => $booking->fairActivity->start_time,
+                ];
+            }
+        }
+
+        if (!empty($fullActivities)) {
+            $message = 'Les següents activitats ja estan plenes:';
+            foreach ($fullActivities as $activity) {
+                $message .= "{$activity['name']} | {$activity['start_time']}";
+            }
+            throw new \Exception($message);
+        }
+
+        $pendingBookings->each(function ($booking) {
+            $booking->status = 'confirmed';
+            $booking->save();
+        });
+
         return $pendingBookings;
     }
 

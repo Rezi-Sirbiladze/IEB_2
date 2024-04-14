@@ -140,7 +140,7 @@
             @yield('pageContent')
         </p>
         <div class="text-center mt-3">
-            <a class="btn1" href="{{ route('fair.index') }}">RESERVAR</a>
+            <a class="btn1" href=" {{ Route::currentRouteNamed('fair.index') ? '#schedule' : route('fair.index') }}">RESERVAR</a>
         </div>
     </div>
 </div>

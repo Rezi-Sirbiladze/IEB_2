@@ -4,8 +4,11 @@
 
 @section('pageTitle', "L'Institut de l'Esport de Barcelona")
 @section('pageContent',
-    'Aquesta fira té com a objectiu principal promoure la pràctica esportiva, fomentar la innovació en aquest
-    àmbit i crear espais de networking entre els diferents agents implicats.')
+    "La Fira de l'IEB és un esdeveniment esportiu organitzat per l'alumnat de segon curs del Cicle Superior de
+    Condicionament Físic de l'Institut de l'Esport de Barcelona. Té com a objectiu principal promoure l'activitat física en
+    l'àmbit del fitness, aplicar els coneixements adquirits al llarg de la nostra formació i gaudir d'una jornada de
+    caràcter festiu.
+    ")
 @section('content')
 
     <style>
@@ -109,9 +112,9 @@
             top: 111px;
             z-index: 0;
             padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.612);
             border-radius: 5px;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(5px);
         }
 
@@ -279,7 +282,7 @@
     </div>
 
 
-    <div class="schedule text-center">
+    <div id="schedule" class="schedule text-center">
         <div class="box text-center bg-info text-white">
             <p>Check in | Benvinguda</p>
         </div>
@@ -295,13 +298,18 @@
                                     data-fair-activity-id="{{ $fairActivity->id }}">
                                     {{ $fairActivity->activity->name }}
                                 </button>
-                                <div class="progress">
-                                    <div id="progress-bar-{{ $fairActivity->id }}" class="progress-bar bg-success"
-                                        role="progressbar" style="width: {{ $fairActivity->capacityPercentage() }}%;"
+                                <div class="progress position-relative">
+                                    <div id="progress-bar-{{ $fairActivity->id }}"
+                                        class="progress-bar @if ($fairActivity->capacityPercentage() >= 100) bg-danger @elseif($fairActivity->capacityPercentage() >= 70) bg-warning @else bg-success @endif"
+                                        role="progressbar" style="width: {{ $fairActivity->capacityPercentage() }}%"
                                         aria-valuenow="{{ $fairActivity->capacityPercentage() }}" aria-valuemin="0"
                                         aria-valuemax="{{ $fairActivity->capacity }}">
                                     </div>
+                                    <span class="position-absolute top-50 start-50 translate-middle" style="color: black">
+                                        {{ $fairActivity->capacity }} / {{ $fairActivity->confirmedBookings->count() }}
+                                    </span>
                                 </div>
+
                             </div>
                         @endforeach
                     </div>
