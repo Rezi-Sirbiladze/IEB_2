@@ -23,5 +23,83 @@ class CreateActivitiesSeeder extends Seeder
         Vine a fer un taller amb l'alumnat de dietètica de l'IAB per aprendre consells nutricionals bàsics I característics per a diferents tipus d'esportistes", 'image_path' => 'foto 8.jpg', 'created_at' => Carbon::now(),));
         Activity::insert(array('name' => 'A CUINAR!', 'description' => "Si vols aprendre a fer un menú senzill, ràpid, energetic i saludable, que et serveixi per abans d'anar a fet el teu entrenament, o per després, passa't a fer un taller de cuina amb l'alumnat de dietètica de l'IAB. I al final del taller, a fer el tastet... segur que  t'agradarà.
         ", 'image_path' => 'foto 9.jpg', 'created_at' => Carbon::now(),));
+
+        Activity::insert(array(
+            'name' => 'SPARTAN RACE',
+            'description' => "Desafia els teus límits mentre superes obstacles físics i mentals en un emocionant recorregut de resistència i determinació.",
+            'image_path' => 'foto 11.jpg',
+            'created_at' => Carbon::now(),
+        ));
+
+        Activity::insert(array(
+            'name' => 'BODI COMBAT',
+            'description' => "Allibera la teva energia mentre et submergeixes en una classe de cardio intens inspirada en les arts marcials, on combines cops i puntades al ritme de la música.",
+            'image_path' => 'foto 12.jpg',
+            'created_at' => Carbon::now(),
+        ));
+
+        Activity::insert(array(
+            'name' => 'ZUMBA',
+            'description' => "Balla i crema calories al ritme de la música llatina en una sessió plena de diversió i moviment que millora la teva condició física i eleva el teu estat d'ànim.",
+            'image_path' => 'foto 13.jpg',
+            'created_at' => Carbon::now(),
+        ));
+
+        Activity::insert(array(
+            'name' => 'OPOSICIONS',
+            'description' => "Prepara't físicament i mentalment per a superar proves d'agilitat i força, així com desafiaments de resistència que t'ajudaran a aconseguir el teu objectiu d'ingressar a les forces de seguretat.",
+            'image_path' => 'foto 14.jpg',
+            'created_at' => Carbon::now(),
+        ));
+
+        Activity::insert(array(
+            'name' => 'HYROX',
+            'description' => "Posa a prova la teva resistència i habilitats funcionals mentre t'enfrontes a una sèrie de desafiaments físics i tècnics dissenyats per a portar el teu entrenament al següent nivell.",
+            'image_path' => 'foto 15.jpg',
+            'created_at' => Carbon::now(),
+        ));
+
+        Activity::insert(array(
+            'name' => 'BOXA',
+            'description' => "Millora la teva força, coordinació i resistència cardiovascular mentre aprens tècniques de colpeig i defensa en una disciplina que desafia tant el cos com la ment.",
+            'image_path' => 'foto 16.jpg',
+            'created_at' => Carbon::now(),
+        ));
+
+        Activity::insert(array(
+            'name' => 'ESTIRAMENTS',
+            'description' => "Utilitza eines com el foam roller i els cadenats miofascials per a alliberar tensions musculars, millorar la flexibilitat i accelerar la recuperació després de l'exercici.",
+            'image_path' => 'foto 17.jpg',
+            'created_at' => Carbon::now(),
+        ));
+
+        Activity::insert(array(
+            'name' => 'CONTROL POSTURAL',
+            'description' => "Aprèn tècniques i exercicis específics per a millorar la teva alineació corporal i prevenir lesions, promovent una postura més saludable i alçada.",
+            'image_path' => 'foto 18.jpg',
+            'created_at' => Carbon::now(),
+        ));
+
+        Activity::insert(array(
+            'name' => 'TALLERS DE NUTRICIÓ',
+            'description' => "Obtingues coneixements i eines pràctiques per a optimitzar el teu rendiment esportiu, gestionar la teva alimentació de manera adequada i desenvolupar habilitats mentals que t'ajudaran a aconseguir les teves metes esportives.",
+            'image_path' => 'Design - Option C.png',
+            'created_at' => Carbon::now(),
+        ));
+
+        Activity::insert(array(
+            'name' => 'PSICOLOGIA ESPORTIVA',
+            'description' => "Obtingues coneixements i eines pràctiques per a optimitzar el teu rendiment esportiu, gestionar la teva alimentació de manera adequada i desenvolupar habilitats mentals que t'ajudaran a aconseguir les teves metes esportives.",
+            'image_path' => 'Design - Option C.png',
+            'created_at' => Carbon::now(),
+        ));
+
+
+        Activity::insert(array(
+            'name' => 'ALT RENDIMENT',
+            'description' => "Obtingues coneixements i eines pràctiques per a optimitzar el teu rendiment esportiu, gestionar la teva alimentació de manera adequada i desenvolupar habilitats mentals que t'ajudaran a aconseguir les teves metes esportives.",
+            'image_path' => 'Design - Option C.png',
+            'created_at' => Carbon::now(),
+        ));
     }
 }

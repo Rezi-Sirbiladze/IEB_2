@@ -18,12 +18,11 @@ class FairController extends Controller
         $this->fairRepository = $fairRepository;
     }
 
-
     public function index()
     {
         $fair = $this->fairRepository->findOneByActived();
         $startTimes = $fair->fairActivities->groupBy('start_time')->keys();
-        $activities = $this->activityRepository->findAll();
+        $activities = $fair->fairActivities()->with('activity')->get()->pluck('activity')->unique();
         $bookedActivities = [];
         if (auth()->user()) {
             foreach (auth()->user()->pendingBookings as $booking) {
@@ -35,7 +34,8 @@ class FairController extends Controller
 
     public function activities()
     {
-        $activities = $this->activityRepository->findAll();
+        $fair = $this->fairRepository->findOneByActived();
+        $activities = $fair->fairActivities()->with('activity')->get()->pluck('activity')->unique();
         return view('fair.activities', compact('activities'));
     }
 

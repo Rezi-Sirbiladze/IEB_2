@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\FairActivity;
 use Carbon\Carbon;
 
-class CreateFairActivitiesSeeder extends Seeder
+class CreateFairActivities1Seeder extends Seeder
 {
     public function run()
     {

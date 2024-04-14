@@ -42,7 +42,10 @@ class BookingRepository implements BookingInterface
             ->where('user_id', auth()->id())
             ->whereHas('fairActivity', function ($query) use ($fairActivity) {
                 $query->where('fair_id', $fairActivity->fair_id)
-                    ->where('start_time', $fairActivity->start_time);
+                    ->where(function ($query) use ($fairActivity) {
+                        $query->where('start_time', '<', $fairActivity->end_time)
+                            ->Where('end_time', '>', $fairActivity->start_time);
+                    });
             })
             ->with('fairActivity')
             ->first();
@@ -110,11 +113,9 @@ class BookingRepository implements BookingInterface
     public function confirmBookings(): Collection
     {
         $pendingBookings = auth()->user()->pendingBookings;
-        
+
         if ($pendingBookings->count() < 4) {
             throw new \Exception('No pots confirmar menys de 4 reserves.');
-        } elseif ($pendingBookings->count() > 4) {
-            throw new \Exception('No pots confirmar més de 4 reserves.');
         }
 
         foreach ($pendingBookings as $booking) {

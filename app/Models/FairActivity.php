@@ -40,6 +40,9 @@ class FairActivity extends Model
 
     public function capacityPercentage()
     {
+        if ($this->capacity == 0) {
+            return 0;
+        }
         return $this->confirmedBookings->count() / $this->capacity * 100;
     }
 }

@@ -214,6 +214,45 @@
         .button1 .bloom-container:active .button-container-main .button-inner {
             transform: scale(1.2);
         }
+
+        #schedule-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        #schedule-table button {
+            min-width: 100px;
+            min-height: 50px;
+            font-size: 1rem;
+        }
+
+        #schedule-table th,
+        #schedule-table td {
+            border: 1px solid #9c9c9c;
+            text-align: center;
+        }
+
+        #schedule-table th {
+            background-color: #f2f2f2;
+        }
+
+        #schedule-table td {
+            background-color: #fff;
+            padding: 3px;
+        }
+
+        #schedule-table td[rowspan] {
+            vertical-align: middle;
+        }
+
+        .sticky-col {
+            position: sticky;
+            left: 0;
+            z-index: 1;
+            background-color: #ffffff;
+            /* Adjust as needed */
+        }
     </style>
     <!-- Button to open the shopping cart -->
     <button id="offcanvas-navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -286,40 +325,61 @@
         <div class="box text-center bg-info text-white">
             <p>Check in | Benvinguda</p>
         </div>
-        <div class="row gap-3">
-            @foreach ($startTimes as $startTime)
-                <div class="box col-md">
-                    <div>
-                        <p class="start-time">{{ $startTime }}</p>
-                        @foreach ($fair->fairActivities->where('start_time', $startTime) as $fairActivity)
-                            <div>
-                                <button id="fairActivityButton{{ $fairActivity->id }}"
-                                    class="@if (in_array($fairActivity->id, $bookedActivities)) btn2Pending @else btn2 @endif book-btn"
-                                    data-fair-activity-id="{{ $fairActivity->id }}">
-                                    {{ $fairActivity->activity->name }}
-                                </button>
-                                <div class="progress position-relative">
-                                    <div id="progress-bar-{{ $fairActivity->id }}"
-                                        class="progress-bar @if ($fairActivity->capacityPercentage() >= 100) bg-danger @elseif($fairActivity->capacityPercentage() >= 70) bg-warning @else bg-success @endif"
-                                        role="progressbar" style="width: {{ $fairActivity->capacityPercentage() }}%"
-                                        aria-valuenow="{{ $fairActivity->capacityPercentage() }}" aria-valuemin="0"
-                                        aria-valuemax="{{ $fairActivity->capacity }}">
-                                    </div>
-                                    <span class="position-absolute top-50 start-50 translate-middle" style="color: black">
-                                        {{ $fairActivity->capacity }} / {{ $fairActivity->confirmedBookings->count() }}
-                                    </span>
-                                </div>
-
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endforeach
+        <div class="table-responsive mt-4">
+            <table id="schedule-table" class="table">
+                <thead>
+                </thead>
+                <tbody>
+                    @php
+                        use Carbon\Carbon;
+                    @endphp
+                    @foreach ($startTimes as $startTime)
+                        <tr>
+                            <td scope="col" class="sticky-col align-middle">{{ Carbon::parse($startTime)->format('H:i') }}</td>
+                            @php
+                                $activitiesAtStartTime = $fair->fairActivities->where('start_time', $startTime);
+                            @endphp
+                            @foreach ($activitiesAtStartTime as $fairActivity)
+                                @php
+                                    $activity = $fairActivity->activity;
+                                    $startDateTime = Carbon::parse($fairActivity->start_time);
+                                    $endDateTime = Carbon::parse($fairActivity->end_time);
+                                    $duration = $startDateTime->diffInMinutes($endDateTime);
+                                    $rowspan = $duration > 30 ? 2 : 1;
+                                @endphp
+                                <td rowspan="{{ $rowspan }}">
+                                    @if ($activity)
+                                        <button id="fairActivityButton{{ $fairActivity->id }}"
+                                            class="book-btn @if (in_array($fairActivity->id, $bookedActivities)) btn2Pending @else btn2 @endif" data-fair-activity-id="{{ $fairActivity->id }}">
+                                            {{ $activity->name }}
+                                        </button>
+                                        <div class="progress position-relative">
+                                            <div id="progress-bar-{{ $activity->id }}"
+                                                class="progress-bar @if ($fairActivity->capacityPercentage() >= 100) bg-danger @elseif($fairActivity->capacityPercentage() >= 70) bg-warning @else bg-success @endif"
+                                                role="progressbar"
+                                                style="width: {{ $fairActivity->capacityPercentage() }}%"
+                                                aria-valuenow="{{ $fairActivity->capacityPercentage() }}" aria-valuemin="0"
+                                                aria-valuemax="{{ $fairActivity->capacity }}">
+                                            </div>
+                                            <span
+                                                class="position-absolute top-50 start-50 translate-middle text-black text-nowrap">
+                                                {{ $fairActivity->capacity }} /
+                                                {{ $fairActivity->confirmedBookings->count() }}
+                                            </span>
+                                        </div>
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
         <div class="box text-center bg-info text-white">
             <p>Activitat conjunta</p>
         </div>
     </div>
+
 
     <hr class="mt-5 mb-5">
 

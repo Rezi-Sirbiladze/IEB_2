@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CreateActivitiesSeeder::class,
             CreateFairsSeeder::class,
-            CreateFairActivitiesSeeder::class,
+            CreateFairActivities1Seeder::class,
+            CreateFairActivities2Seeder::class,
             CreateUsersRolesPermissionsSeeder::class,
         ]);
 

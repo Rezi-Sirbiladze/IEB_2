@@ -63,7 +63,6 @@
         .btn2 {
             background-color: #00a4ae;
             color: white;
-            padding: 12px 40px;
             text-decoration: none;
             border: none;
             transition: background-color 0.3s ease, transform 0.2s ease;
@@ -71,14 +70,12 @@
             display: inline-block;
             font-size: 1.5rem;
             width: 100%;
-            margin-top: 20px;
             border-radius: 5px 5px 0px 0px;
         }
 
         .btn2Pending {
             background-color: #002e35;
             color: white;
-            padding: 12px 40px;
             text-decoration: none;
             border: none;
             transition: background-color 0.3s ease, transform 0.2s ease;
@@ -86,7 +83,6 @@
             display: inline-block;
             font-size: 1.5rem;
             width: 100%;
-            margin-top: 20px;
             border-radius: 5px 5px 0px 0px;
 
         }
