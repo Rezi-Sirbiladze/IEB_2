@@ -328,6 +328,18 @@
         <div class="table-responsive mt-4">
             <table id="schedule-table" class="table">
                 <thead>
+                    <tr>
+                        <th scope="col" class="sticky-col">Hora</th>
+                        <th scope="col">Zona 1</th>
+                        <th scope="col">Zona 2</th>
+                        <th scope="col">Zona 3</th>
+                        <th scope="col">Zona 4</th>
+                        <th scope="col">Zona 5</th>
+                        <th scope="col">Zona 6</th>
+                        <th scope="col">Zona 7</th>
+                        <th scope="col">Zona 8</th>
+                        <th scope="col">Teatre</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @php
@@ -335,7 +347,8 @@
                     @endphp
                     @foreach ($startTimes as $startTime)
                         <tr>
-                            <td scope="col" class="sticky-col align-middle">{{ Carbon::parse($startTime)->format('H:i') }}</td>
+                            <td scope="col" class="sticky-col align-middle">
+                                {{ Carbon::parse($startTime)->format('H:i') }}</td>
                             @php
                                 $activitiesAtStartTime = $fair->fairActivities->where('start_time', $startTime);
                             @endphp
@@ -350,7 +363,8 @@
                                 <td rowspan="{{ $rowspan }}">
                                     @if ($activity)
                                         <button id="fairActivityButton{{ $fairActivity->id }}"
-                                            class="book-btn @if (in_array($fairActivity->id, $bookedActivities)) btn2Pending @else btn2 @endif" data-fair-activity-id="{{ $fairActivity->id }}">
+                                            class="book-btn @if (in_array($fairActivity->id, $bookedActivities)) btn2Pending @else btn2 @endif"
+                                            data-fair-activity-id="{{ $fairActivity->id }}">
                                             {{ $activity->name }}
                                         </button>
                                         <div class="progress position-relative">
@@ -520,6 +534,15 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <h2 class="text-center mt-2">Zonas</h2>
+        <div class="row">
+            <div class="col-md-8 mt-1">
+                <img src="{{ asset('img/mapa.png') }}" class="img-fluid rounded" alt="Zones">
+            </div>
+            <div class="col-md-4 mt-1">
+                <img src="{{ asset('img/mapaLeg.png') }}" class="img-fluid" alt="Zonas">
             </div>
         </div>
     </div>

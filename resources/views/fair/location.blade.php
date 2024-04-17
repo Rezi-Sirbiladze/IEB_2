@@ -694,6 +694,16 @@
                 </div>
             </div>
         </div>
+        <h2 class="text-center mt-2">Zonas</h2>
+        <div class="row">
+            <div class="col-md-8 mt-1">
+                <img src="{{ asset('img/mapa.png') }}" class="img-fluid rounded" alt="Zones">
+            </div>
+            <div class="col-md-4 mt-1">
+                <img src="{{ asset('img/mapaLeg.png') }}" class="img-fluid" alt="Zonas">
+            </div>
+        </div>
+    </div>
     </div>
 
 
