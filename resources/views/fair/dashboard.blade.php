@@ -23,6 +23,122 @@
             background-color: black;
             color: white;
         }
+
+        /* Loader */
+        .loading {
+            --speed-of-animation: 0.9s;
+            --gap: 6px;
+            --second-color: #49a84c;
+            --third-color: #f6bb02;
+            --fourth-color: #f68002;
+            --fifth-color: #2196f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            margin: auto;
+            gap: 6px;
+        }
+
+        .loading span {
+            width: 4px;
+            height: 50px;
+            background: var(--first-color);
+            animation: scale var(--speed-of-animation) ease-in-out infinite;
+        }
+
+        .loading span:nth-child(2) {
+            background: var(--second-color);
+            animation-delay: -0.8s;
+        }
+
+        .loading span:nth-child(3) {
+            background: var(--third-color);
+            animation-delay: -0.7s;
+        }
+
+        .loading span:nth-child(4) {
+            background: var(--fourth-color);
+            animation-delay: -0.6s;
+        }
+
+        .loading span:nth-child(5) {
+            background: var(--fifth-color);
+            animation-delay: -0.5s;
+        }
+
+
+        @keyframes scale {
+
+            0%,
+            40%,
+            100% {
+                transform: scaleY(0.05);
+            }
+
+            20% {
+                transform: scaleY(1);
+            }
+        }
+
+
+        /* Star icons */
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+        .rating-box {
+            position: relative;
+            background: #fff;
+            padding: 25px 50px 35px;
+            border-radius: 25px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .rating-box header {
+            font-size: 22px;
+
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .rating-box .stars {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .stars i {
+            color: #9e9e9e;
+            font-size: 35px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .stars i.active {
+            color: #ff9c1a;
+        }
+
+        .stars_home i.active {
+            color: #ff9c1a;
+            font-size: 35px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 12px 20px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            background-color: #f8f8f8;
+            font-size: 16px;
+            resize: none;
+        }
+
+        /** Star icons */
     </style>
 
     <div class="row justify-content-center">
@@ -64,6 +180,7 @@
                             aria-controls="flush-collapse{{ $key }}">
                             LLegir
                         </button>
+                        <button class="openModalBtn" data-booking_id="{{ $booking->id }}">Open Modal</button>
                     </div>
                     <div class="card-body">
                         <div class="activities-container">
@@ -82,7 +199,43 @@
                 </div>
             </div>
         @endforeach
-
     </div>
+
+    <div id="reviewModal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div id="response_content" class="modal-content">
+                <!-- Modal content will be loaded here via AJAX -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.openModalBtn').on('click', function() {
+                var booking_id = $(this).data('booking_id');
+                $.ajax({
+                    url: "{{ route('modalReview') }}",
+                    type: "GET",
+                    data: {
+                        booking_id: booking_id
+                    },
+                    beforeSend: function() {
+                        $("#reviewModal").modal('show');
+                        $('#response_content').html(
+                            '<div class="p-5 h3 text-center text-dark"> <div class="loading"><span></span><span></span><span></span><span></span><span></span></div></div>'
+                        );
+                    },
+                    success: function(response) {
+                        $('.modal-content').html(response);
+                        $('#reviewModal').modal('show');
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 
 @endsection

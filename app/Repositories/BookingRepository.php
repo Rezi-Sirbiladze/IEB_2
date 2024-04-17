@@ -27,6 +27,11 @@ class BookingRepository implements BookingInterface
         return $this->model->findOrFail($id);
     }
 
+    public function findOneById(int $id): Booking
+    {
+        return $this->model->findOrFail($id);
+    }
+
     public function create(FairActivity $fairActivity): Booking
     {
         $existingBookingActivity = $this->model

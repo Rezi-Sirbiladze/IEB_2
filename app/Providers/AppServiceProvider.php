@@ -21,7 +21,9 @@ class AppServiceProvider extends ServiceProvider
             'App\Interfaces\BookingInterface',
             'App\Repositories\BookingRepository',
             'App\Interfaces\FairActivityInterface',
-            'App\Repositories\FairActivityRepository'
+            'App\Repositories\FairActivityRepository',
+            'App\Interfaces\ReviewInterface',
+            'App\Repositories\ReviewRepository',
         );
     }
 

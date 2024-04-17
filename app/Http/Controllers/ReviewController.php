@@ -2,17 +2,37 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Review;
 use Illuminate\Http\Request;
+use App\Repositories\ReviewRepository;
+use App\Repositories\BookingRepository;
 
 class ReviewController extends Controller
 {
+
+    protected ReviewRepository $reviewRepository;
+    protected BookingRepository $bookingRepository;
+
+    public function __construct(ReviewRepository $reviewRepository, BookingRepository $bookingRepository)
+    {
+        $this->reviewRepository = $reviewRepository;
+        $this->bookingRepository = $bookingRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
+    }
+
+    public function modalReview(Request $request)
+    {
+        $booking = $this->bookingRepository->findOneById($request->booking_id);
+        $review = $this->reviewRepository->findOneByBookingId($request->booking_id);
+        return view('fair.modals.review', compact('booking', 'review'));
     }
 
     /**
@@ -28,7 +48,7 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

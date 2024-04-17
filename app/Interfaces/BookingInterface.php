@@ -11,6 +11,7 @@ interface BookingInterface
 {
     public function findAll(): Collection;
     public function findOne(int $id): Booking;
+    public function findOneById(int $id): Booking;
 
     public function create(FairActivity $fairActivity): Booking;
     public function update(array $data, int $id): Booking;
