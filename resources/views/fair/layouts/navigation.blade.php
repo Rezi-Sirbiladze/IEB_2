@@ -31,9 +31,6 @@
     }
 
     #background-video {
-        width: 100vw;
-        height: 100vh;
-        object-fit: cover;
         position: fixed;
         left: 0;
         right: 0;
@@ -45,7 +42,7 @@
     .transparent-box {
         max-width: 500px;
         border-radius: 16px;
-        padding: 20px;
+        height: 600px;
         color: rgba(255, 255, 255, 0.9);
         position: relative;
     }
@@ -57,7 +54,7 @@
         object-fit: cover;
         filter: grayscale(0.5) opacity(0.8);
     }
-
+/* 
     .video-content:before {
         content: '';
         position: absolute;
@@ -67,7 +64,7 @@
         bottom: 0;
         left: 0;
         backdrop-filter: blur(5px);
-    }
+    } */
 
     .separator {
         position: relative;
@@ -135,13 +132,13 @@
 
 <div class="transparent-box margin-top-20 container-xxl">
     <div>
-        <h1 class="text-center">@yield('pageTitle')</h1>
+        {{-- <h1 class="text-center">@yield('pageTitle')</h1>
         <p class="card-text mt-3">
             @yield('pageContent')
         </p>
         <div class="text-center mt-3">
             <a class="btn1" href=" {{ Route::currentRouteNamed('fair.index') ? '#schedule' : route('fair.index') }}">RESERVAR</a>
-        </div>
+        </div> --}}
     </div>
 </div>
 

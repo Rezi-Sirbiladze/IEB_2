@@ -175,12 +175,19 @@
                     <div class="card-header1 card-header text-center">
                         <h5 class="card-title">{{ $booking->fairActivity->activity->name }} |
                             {{ $booking->fairActivity->start_time }}</h5>
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapse{{ $key }}" aria-expanded="false"
-                            aria-controls="flush-collapse{{ $key }}">
-                            LLegir
-                        </button>
-                        <button class="openModalBtn" data-booking_id="{{ $booking->id }}">Open Modal</button>
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <button class="collapsed btn2" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapse{{ $key }}" aria-expanded="false"
+                                    aria-controls="flush-collapse{{ $key }}">
+                                    LLegir
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="openModalBtn btn2"
+                                    data-booking_id="{{ $booking->id }}">Valorar</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="activities-container">

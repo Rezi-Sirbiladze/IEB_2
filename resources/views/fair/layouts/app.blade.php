@@ -139,6 +139,17 @@
                             {{ session('error') }}
                         </div>
                     @endif
+                    <div class="container-xxl">
+                        <div class="mb-2">
+                            <h1 class="text-center">@yield('pageTitle')</h1>
+                            <p class="card-text mt-3">
+                                @yield('pageContent')
+                            </p>
+                            <div class="text-center mt-3">
+                                <a class="btn1" href=" {{ Route::currentRouteNamed('fair.index') ? '#schedule' : route('fair.index') }}">RESERVAR</a>
+                            </div>
+                        </div>
+                    </div>
                     @yield('content')
                 </div>
             </div>
