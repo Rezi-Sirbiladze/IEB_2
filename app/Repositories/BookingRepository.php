@@ -55,13 +55,7 @@ class BookingRepository implements BookingInterface
             ->with('fairActivity')
             ->first();
 
-        $existingBookingsCount = $this->model
-            ->whereHas('fairActivity', function ($query) use ($fairActivity) {
-                $query->where('fair_id', $fairActivity->fair_id)
-                    ->where('activity_id', $fairActivity->activity_id);
-            })
-            ->where('status', 'confirmed')
-            ->count();
+        $existingBookingsCount = $fairActivity->confirmedBookings->count();
 
         $maxCapacity = $fairActivity->capacity;
 

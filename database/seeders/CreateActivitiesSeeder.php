@@ -32,7 +32,7 @@ class CreateActivitiesSeeder extends Seeder
         ));
 
         Activity::insert(array(
-            'name' => 'BODI COMBAT',
+            'name' => 'BODY COMBAT',
             'description' => "Allibera la teva energia mentre et submergeixes en una classe de cardio intens inspirada en les arts marcials, on combines cops i puntades al ritme de la música.",
             'image_path' => 'foto 12.jpg',
             'created_at' => Carbon::now(),
@@ -81,7 +81,7 @@ class CreateActivitiesSeeder extends Seeder
         ));
 
         Activity::insert(array(
-            'name' => 'TALLERS DE NUTRICIÓ',
+            'name' => 'TALLERS DE NUTRICIÓN / ANTROPOMETRÍA',
             'description' => "Obtingues coneixements i eines pràctiques per a optimitzar el teu rendiment esportiu, gestionar la teva alimentació de manera adequada i desenvolupar habilitats mentals que t'ajudaran a aconseguir les teves metes esportives.",
             'image_path' => 'Design - Option C.png',
             'created_at' => Carbon::now(),
