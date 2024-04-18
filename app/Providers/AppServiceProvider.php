@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Validator::extend('allowed_email_domains', function ($attribute, $value, $parameters, $validator) {
-            $allowedDomains = ['@ieb.cat', '@institutaliments.barcelona', 'aites@gmail.com'];
+            $allowedDomains = ['@ieb.cat', '@institutaliments.barcelona', '@apellesmestres.cat'];
 
             foreach ($allowedDomains as $domain) {
                 if (Str::contains($value, $domain)) {
