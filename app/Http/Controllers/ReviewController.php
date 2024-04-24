@@ -48,7 +48,10 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $data = $request->except('_token');
+        $data['user_id'] = auth()->id();
+        $this->reviewRepository->updateOrCreate($data);
+        return response()->json(['success' => true, 'message' => 'Review saved successfully.']);
     }
 
     /**

@@ -27,9 +27,13 @@ class ReviewRepository implements ReviewInterface
 
     public function findOneByBookingId(int $id): ?Review
     {
-
-        $review = $this->model->first();
+        $review = $this->model->where('booking_id', $id)->first();
         return $review ?? null;
+    }
+
+    public function updateOrCreate(array $data): Review
+    {
+        return  $this->model->updateOrCreate(['booking_id' => $data['booking_id']], $data);
     }
 
     public function create(array $request): Review

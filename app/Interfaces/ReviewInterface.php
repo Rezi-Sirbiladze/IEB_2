@@ -11,6 +11,7 @@ interface ReviewInterface
     public function findOne(int $id): Review;
     public function findOneByBookingId(int $id): ?Review;
 
+    public function updateOrCreate(array $data): Review;
     public function create(array $request): Review;
     public function update(array $data, int $id): Review;
     public function save(Review $review): bool;

@@ -185,7 +185,7 @@
                             </div>
                             <div class="col-6">
                                 <button class="openModalBtn btn2"
-                                    data-booking_id="{{ $booking->id }}">Valorar</button>
+                                    data-booking_id="{{ $booking->id }}">Valorar {{$booking->review ? $booking->review->score : ''}}</button>
                             </div>
                         </div>
                     </div>
