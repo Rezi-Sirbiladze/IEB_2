@@ -174,7 +174,7 @@
                     </div>
                     <div class="card-header1 card-header text-center">
                         <h5 class="card-title">{{ $booking->fairActivity->activity->name }} |
-                            {{ $booking->fairActivity->start_time }}</h5>
+                            {{ $booking->fairActivity->start_time }} | {{ $booking->fairActivity->activity->location }}</h5>
                         <div class="row justify-content-center">
                             <div class="col-6">
                                 <button class="collapsed btn2" type="button" data-bs-toggle="collapse"
