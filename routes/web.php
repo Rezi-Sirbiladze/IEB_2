@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FairController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +23,21 @@ Route::get('activities', [FairController::class, 'activities'])->name('fair.acti
 Route::get('location', [FairController::class, 'location'])->name('fair.location');
 
 Route::get('/dashboard', function () {
+    if (auth()->user()->hasRole('admin')) {
+        return redirect()->route('admin.dashboard');
+    }
     return view('fair.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth', 'role:admin')->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('admin/fair/{fair_id}', [AdminController::class, 'fairActivities'])->name('fairActivities');
+        Route::get('admin/fairActivity/{fairActivity_id}', [AdminController::class, 'fairActivityBookings'])->name('fairActivityBookings');
+
+        Route::post('admin/updatepresentedstatus', [AdminController::class, 'updatePresentedStatus'])->name('updatepresentedstatus');
+    });
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('bookings/confirm', [BookingController::class, 'confirm'])->name('booking.confirm');
@@ -40,4 +54,4 @@ Route::middleware('auth')->group(function () {
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

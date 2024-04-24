@@ -37,6 +37,10 @@ class FairActivity extends Model
         return $this->hasMany(Booking::class)->where('status', 'confirmed');
     }
 
+    public function Users()
+    {
+        return $this->hasManyThrough(User::class, Booking::class);
+    }
 
     public function capacityPercentage()
     {

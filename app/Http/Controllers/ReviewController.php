@@ -30,7 +30,7 @@ class ReviewController extends Controller
 
     public function modalReview(Request $request)
     {
-        $booking = $this->bookingRepository->findOneById($request->booking_id);
+        $booking = $this->bookingRepository->findOne($request->booking_id);
         $review = $this->reviewRepository->findOneByBookingId($request->booking_id);
         return view('fair.modals.review', compact('booking', 'review'));
     }

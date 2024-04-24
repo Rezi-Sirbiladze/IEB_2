@@ -728,7 +728,7 @@
                         </div>
                         <div class="btn-box">
                             <button class="btn1">
-                                View
+                                Veure
                             </button>
                         </div>
                     </div>
@@ -746,7 +746,7 @@
                         </div>
                         <div class="btn-box">
                             <button class="btn1">
-                                View
+                                Veure
                             </button>
                         </div>
                     </div>
@@ -764,7 +764,7 @@
                         </div>
                         <div class="btn-box">
                             <button class="btn1">
-                                View
+                                Veure
                             </button>
                         </div>
                     </div>
@@ -782,7 +782,7 @@
                         </div>
                         <div class="btn-box">
                             <button class="btn1">
-                                View
+                                Veure
                             </button>
                         </div>
                     </div>
@@ -800,7 +800,7 @@
                         </div>
                         <div class="btn-box">
                             <button class="btn1">
-                                View
+                                Veure
                             </button>
                         </div>
                     </div>

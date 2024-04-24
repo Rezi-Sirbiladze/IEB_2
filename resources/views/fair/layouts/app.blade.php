@@ -24,6 +24,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.css">
+    <link
+        href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.0.5/af-2.7.0/b-3.0.2/b-html5-3.0.2/b-print-3.0.2/datatables.min.css"
+        rel="stylesheet">
+
     <style>
         * {
             /* font-family: "Source Sans 3"; */
@@ -146,7 +152,10 @@
                                 @yield('pageContent')
                             </p>
                             <div class="text-center mt-3">
-                                <a class="btn1" href=" {{ Route::currentRouteNamed('fair.index') ? '#schedule' : route('fair.index') }}">RESERVAR</a>
+                                @if (!Route::currentRouteName() || !Str::startsWith(Route::currentRouteName(), 'admin.'))
+                                    <a class="btn1"
+                                        href=" {{ Route::currentRouteNamed('fair.index') ? '#schedule' : route('fair.index') }}">RESERVAR</a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -161,6 +170,13 @@
     <!-- Page Content -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+
+    <!-- DataTables -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
+    <script
+        src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.0.5/af-2.7.0/b-3.0.2/b-html5-3.0.2/b-print-3.0.2/datatables.min.js">
     </script>
 </body>
 

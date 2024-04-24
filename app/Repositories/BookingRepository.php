@@ -22,12 +22,14 @@ class BookingRepository implements BookingInterface
         return $this->model->all();
     }
 
-    public function findOne(int $id): Booking
+    public function findAllByActivityId(int $activity_id): Collection
     {
-        return $this->model->findOrFail($id);
+        return $this->model
+            ->where('fair_activity_id', $activity_id)
+            ->get();
     }
 
-    public function findOneById(int $id): Booking
+    public function findOne(int $id): Booking
     {
         return $this->model->findOrFail($id);
     }

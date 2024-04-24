@@ -20,4 +20,9 @@ class Fair extends Model
     {
         return $this->hasMany(FairActivity::class);
     }
+
+    public function confirmedBookings()
+    {
+        return $this->hasManyThrough(Booking::class, FairActivity::class)->where('status', 'confirmed');
+    }
 }
