@@ -25,8 +25,7 @@
     </style>
 
     <div class="row justify-content-center">
-        <button class="btn1" onclick="window.history.back()">Tornar</button>
-
+        <a href="{{ route('admin.fairActivities', $fairActivity->fair_id) }}" class="btn1">Tornar</a>
         {{ $fairActivity->activity->name }} | {{ $fairActivity->start_time }} - {{ $fairActivity->end_time }}
         <div class="table-responsive mt-4">
             <table id="table-fairs" class="display" style="width:100%">

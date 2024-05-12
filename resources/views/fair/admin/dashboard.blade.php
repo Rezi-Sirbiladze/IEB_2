@@ -27,6 +27,8 @@
 
     <div class="row justify-content-center">
         Admin
+        <a href="{{ route('admin.fairs.create') }}" class="btn1">Crear Fira</a>
+        <a href="{{ route('admin.activities.index') }}" class="btn1 mt-2">Activitats</a>
         <div class="table-responsive mt-4">
             <table id="table-fairs" class="display" style="width:100%">
                 <thead>
@@ -35,6 +37,7 @@
                         <th>Nom</th>
                         <th>Data</th>
                         <th>Reserves</th>
+                        <th>Activitats</th>
                         <th>Accions</th>
                     </tr>
                 </thead>
@@ -45,8 +48,10 @@
                             <td>{{ $fair->name }}</td>
                             <td>{{ \Carbon\Carbon::parse($fair->date)->format('d/m/Y') }}</td>
                             <td>{{ $fair->confirmedBookings->count() }}</td>
+                            <td>{{ $fair->fairActivities->count() }}</td>
                             <td>
                                 <a href="{{ route('admin.fairActivities', $fair->id) }}" class="btn1">Veure</a>
+                                <a href="{{ route('admin.fairs.edit', $fair->id) }}" class="btn1">Editar</a>
                             </td>
                         </tr>
                     @endforeach
@@ -64,6 +69,7 @@
                     ['10 rows', '25 rows', '50 rows', '100 rows', 'Show all']
                 ],
                 buttons: ['excel', 'print', 'pageLength'],
+                ordering: false
             });
         });
     </script>

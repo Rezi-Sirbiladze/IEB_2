@@ -12,6 +12,8 @@ class Activity extends Model
     protected $fillable = [
         'name',
         'description',
+        'location',
+        'image_path',
     ];
 
     public function fairActivities()

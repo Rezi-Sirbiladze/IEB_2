@@ -26,42 +26,27 @@
     </style>
 
     <div class="row justify-content-center">
+        Admin
         <a href="{{ route('admin.dashboard') }}" class="btn1">Tornar</a>
-        <a href="{{ route('admin.fairActivities.create', ['fair_id' => $fair->id]) }}" class="btn1 mt-2">Crear Actividad de
-            Feria</a>
-
-        {{ $fair->name }} | {{ $fair->date }}
+        <a href="{{ route('admin.activities.create') }}" class="btn1 mt-2">Crear Activitat</a>
         <div class="table-responsive mt-4">
             <table id="table-fairs" class="display" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Hora inici</th>
-                        <th>Hora fi</th>
                         <th>Nom</th>
-                        <th>Capacitat</th>
-                        <th>Reserves</th>
-                        <th>Acciones</th>
+                        <th>Descripció</th>
+                        <th>Zona</th>
+                        <th>Accions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($fair->fairActivities as $fairActivity)
+                    @foreach ($activities as $activity)
                         <tr>
-                            <td>{{ $fairActivity->start_time }}</td>
-                            <td>{{ $fairActivity->end_time }}</td>
-                            <td>{{ $fairActivity->activity->name }}</td>
-                            <td>{{ $fairActivity->capacity }}</td>
-                            <td>{{ $fairActivity->confirmedBookings->count() }}</td>
+                            <td>{{ $activity->name }}</td>
+                            <td>{{ $activity->description }}</td>
+                            <td>{{ $activity->location }}</td>
                             <td>
-                                <a href="{{ route('admin.fairActivityBookings', $fairActivity->id) }}"
-                                    class="btn1">Veure</a>
-                                <a href="{{ route('admin.fairActivities.edit', [$fair->id, $fairActivity->id]) }}"
-                                    class="btn1 mt-1">Editar</a>
-                                <form method="POST"
-                                    action="{{ route('admin.fairActivities.destroy', [$fairActivity->id]) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn1 mt-1">Eliminar</button>
-                                </form>
+                                <a href="{{ route('admin.activities.edit', $activity->id) }}" class="btn1">Editar</a>
                             </td>
                         </tr>
                     @endforeach
@@ -79,6 +64,7 @@
                     ['10 rows', '25 rows', '50 rows', '100 rows', 'Show all']
                 ],
                 buttons: ['excel', 'print', 'pageLength'],
+                ordering: false
             });
         });
     </script>

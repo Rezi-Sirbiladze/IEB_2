@@ -3,16 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Repositories\ActivityRepository;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
+    protected ActivityRepository $activityRepository;
+
+    public function __construct(ActivityRepository $activityRepository)
+    {
+        $this->activityRepository = $activityRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $activities = $this->activityRepository->findAll();
+        return view('fair.admin.activitiesCRUD.index', compact('activities'));
     }
 
     /**
@@ -20,7 +29,7 @@ class ActivityController extends Controller
      */
     public function create()
     {
-        //
+        return view('fair.admin.activitiesCRUD.create');
     }
 
     /**
@@ -28,7 +37,16 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $image = $request->file('image_path');
+        $directory = 'img';
+        $filename = uniqid() . '_' . $image->getClientOriginalName();
+        $path = $image->move(public_path($directory), $filename);
+        
+        $data['image_path'] = $filename;
+        $this->activityRepository->create($data);
+
+        return redirect()->route('admin.activities.index');
     }
 
     /**
@@ -44,7 +62,7 @@ class ActivityController extends Controller
      */
     public function edit(Activity $activity)
     {
-        //
+        return view('fair.admin.activitiesCRUD.edit', compact('activity'));
     }
 
     /**
@@ -52,7 +70,16 @@ class ActivityController extends Controller
      */
     public function update(Request $request, Activity $activity)
     {
-        //
+        $data = $request->all();
+        $image = $request->file('image_path');
+        $directory = 'img';
+        $filename = uniqid() . '_' . $image->getClientOriginalName();
+        $path = $image->move(public_path($directory), $filename);
+
+        $data['image_path'] = $filename;
+        $this->activityRepository->update($data, $activity->id);
+
+        return redirect()->route('admin.activities.index');
     }
 
     /**

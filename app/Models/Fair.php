@@ -10,10 +10,11 @@ class Fair extends Model
     use HasFactory;
 
     protected $fillable = [
+        'active',
         'name',
-        'start_date',
-        'end_date',
-        'location',
+        'description',
+        'date',
+        'image_path',
     ];
 
     public function fairActivities()

@@ -46,7 +46,7 @@ class FairController extends Controller
 
     public function create()
     {
-        //
+        return view('fair.admin.fairsCRUD.create');
     }
 
     /**
@@ -54,7 +54,11 @@ class FairController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->active) {
+            $desactiveAllFairs = $this->fairRepository->desactiveAllFairs();
+        }
+        $create = $this->fairRepository->create($request->all());
+        return redirect()->route('admin.dashboard');
     }
 
     /**
@@ -70,7 +74,9 @@ class FairController extends Controller
      */
     public function edit(Fair $fair)
     {
-        //
+
+        $fair = $this->fairRepository->findOne($fair->id);
+        return view('fair.admin.fairsCRUD.edit', compact('fair'));
     }
 
     /**
@@ -78,7 +84,11 @@ class FairController extends Controller
      */
     public function update(Request $request, Fair $fair)
     {
-        //
+        if ($request->active) {
+            $desactiveAllFairs = $this->fairRepository->desactiveAllFairs();
+        }
+        $update = $this->fairRepository->update($request->all(), $fair->id);
+        return redirect()->route('admin.dashboard');
     }
 
     /**

@@ -157,7 +157,7 @@
 
                     <div class="box text-center mt-4">
                         @if (auth()->user()->confirmedBookings->count() > 0)
-                            <a href="{{ route('user.deletefairBookings', 2) }}" class="btn btn-danger">Cancel·lar totes les
+                            <a href="{{ route('user.deletefairBookings', auth->user()->activeFair->id) }}" class="btn btn-danger">Cancel·lar totes les
                                 activitats</a>
                         @endif
                     </div>

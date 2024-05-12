@@ -5,6 +5,8 @@ use App\Http\Controllers\FairController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\FairActivityController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,12 +34,19 @@ Route::get('/dashboard', function () {
 Route::middleware('auth', 'role:admin')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::get('admin/fair/{fair_id}', [AdminController::class, 'fairActivities'])->name('fairActivities');
-        Route::get('admin/fairActivity/{fairActivity_id}', [AdminController::class, 'fairActivityBookings'])->name('fairActivityBookings');
+        Route::get('fair/{fair_id}', [AdminController::class, 'fairActivities'])->name('fairActivities');
+        Route::get('fairActivity/{fairActivity_id}', [AdminController::class, 'fairActivityBookings'])->name('fairActivityBookings');
 
-        Route::post('admin/updatepresentedstatus', [AdminController::class, 'updatePresentedStatus'])->name('updatepresentedstatus');
+        Route::post('updatepresentedstatus', [AdminController::class, 'updatePresentedStatus'])->name('updatepresentedstatus');
+
+        Route::resource('fairs', FairController::class);
+        Route::resource('activities', ActivityController::class);
+
+        Route::get('fairActivities/create/{fair_id}', [FairActivityController::class, 'create'])->name('fairActivities.create');
+        Route::get('fairActivities/editar/{fair_id}/{fairActivity_id}', [FairActivityController::class, 'edit'])->name('fairActivities.edit');
+        Route::resource('fairActivities', FairActivityController::class)->except(['create', 'edit']);
     });
-});
+}); 
 
 Route::middleware('auth')->group(function () {
     Route::get('bookings/confirm', [BookingController::class, 'confirm'])->name('booking.confirm');

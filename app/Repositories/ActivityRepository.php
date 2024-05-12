@@ -17,7 +17,7 @@ class ActivityRepository implements ActivityInterface
 
     public function findAll(): Collection
     {
-        return $this->model->all();
+        return $this->model->orderBy('created_at', 'desc')->get();
     }
 
     public function findOne(int $id): Activity
@@ -32,7 +32,18 @@ class ActivityRepository implements ActivityInterface
 
     public function update(array $data, int $id): Activity
     {
+        
         $register = $this->model->findOrFail($id);
+        #delete old image if new image is uploaded
+        
+        if (isset($data['image_path'])) {
+            $image_path = $register->image_path;
+            $image_path = public_path('img/' . $image_path);
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
+        }
+
         $register->update($data);
         return $register;
     }
