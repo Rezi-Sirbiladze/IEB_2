@@ -24,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\FairActivityRepository',
             'App\Interfaces\ReviewInterface',
             'App\Repositories\ReviewRepository',
+            'App\Interfaces\MediaLinksInterface',
+            'App\Repositories\MediaLinsRepository',
         );
     }
 
@@ -32,17 +34,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Validator::extend('allowed_email_domains', function ($attribute, $value, $parameters, $validator) {
-            $allowedDomains = ['@ieb.cat', '@institutaliments.barcelona', '@apellesmestres.cat'];
+        Validator::extend(
+            'allowed_email_domains',
+            function ($attribute, $value, $parameters, $validator) {
+                $allowedDomains = ['@ieb.cat', '@institutaliments.barcelona', '@apellesmestres.cat'];
 
-            foreach ($allowedDomains as $domain) {
-                if (Str::contains($value, $domain)) {
-                    return true;
+                foreach ($allowedDomains as $domain) {
+                    if (Str::contains($value, $domain)) {
+                        return true;
+                    }
                 }
-            }
 
-            return false;
-        },
-        'El domini de correu electrònic no està permès.');
+                return false;
+            },
+            'El domini de correu electrònic no està permès.'
+        );
     }
 }

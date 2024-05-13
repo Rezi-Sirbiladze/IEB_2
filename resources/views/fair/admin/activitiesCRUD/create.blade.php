@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <a href="{{ route('admin.activities.index') }}" class="btn1">Tornar</a>
         <div class="col-md-8">
-            <div class="card mt-5">
+            <div class="card mt-5 mb-5">
                 <div class="card-header">Crear Activitat</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.activities.store') }}" enctype="multipart/form-data">
@@ -22,7 +22,8 @@
                             <input type="text" class="form-control" id="description" name="description" required>
 
                             <label for="date">Zona</label>
-                            <input type="number" class="form-control" id="location" name="location" min="1" max="20" required>
+                            <input type="number" class="form-control" id="location" name="location" min="1"
+                                max="20" required>
 
                             <label for="image_path">Imatge</label>
                             <input type="file" class="form-control" id="image_path" name="image_path" required>

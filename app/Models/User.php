@@ -75,8 +75,18 @@ class User extends Authenticatable
         return explode(' ', $this->name)[0];
     }
 
-    public function actviveFair()
+    public function mediaVideo()
     {
-        return Fair::where('active', 1)->first();
+        return MediaLinks::where('media_type', 'indexVideo')->first();
+    }
+
+    public function mediaMap()
+    {
+        return MediaLinks::where('media_type', 'map')->first();
+    }
+
+    public function mediaMapLeg()
+    {
+        return MediaLinks::where('media_type', 'mapLeg')->first();
     }
 }

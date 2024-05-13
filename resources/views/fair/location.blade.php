@@ -6,6 +6,11 @@
 @endsection
 @section('content')
 
+    @php
+        $mediaMap = mediaMap();
+        $mediaMapLeg = mediaMapLeg();
+    @endphp
+
     <style>
         .map-info {
             position: absolute;
@@ -697,10 +702,11 @@
         <h2 class="text-center mt-2">Zones</h2>
         <div class="row">
             <div class="col-md-8 mt-1">
-                <img src="{{ asset('img/mapa.png') }}" class="img-fluid rounded" alt="Zones">
+                <img src="{{ asset('img/' . $mediaMap->media_path) }}" class="img-fluid rounded"
+                    alt="Zones">
             </div>
             <div class="col-md-4 mt-1">
-                <img src="{{ asset('img/mapaLeg.png') }}" class="img-fluid" alt="Zones">
+                <img src="{{ asset('img/' . $mediaMapLeg->media_path) }}" class="img-fluid" alt="Zones">
             </div>
         </div>
     </div>

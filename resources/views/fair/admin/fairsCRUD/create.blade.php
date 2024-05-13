@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <a href="{{ route('admin.dashboard') }}" class="btn1">Tornar</a>
         <div class="col-md-8">
-            <div class="card mt-5">
+            <div class="card mt-5 mb-5">
                 <div class="card-header">Crear Fira</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.fairs.store') }}">

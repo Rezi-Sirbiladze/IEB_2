@@ -27,8 +27,10 @@
 
     <div class="row justify-content-center">
         Admin
-        <a href="{{ route('admin.fairs.create') }}" class="btn1">Crear Fira</a>
+        <a href="{{ route('admin.mediaLinks.edit') }}" class="btn1">Actualitzar vídeo/Imatges</a>
+        <a href="{{ route('admin.fairs.create') }}" class="btn1 mt-2">Crear Fira</a>
         <a href="{{ route('admin.activities.index') }}" class="btn1 mt-2">Activitats</a>
+
         <div class="table-responsive mt-4">
             <table id="table-fairs" class="display" style="width:100%">
                 <thead>

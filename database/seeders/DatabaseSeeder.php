@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             CreateFairActivities1Seeder::class,
             CreateFairActivities2Seeder::class,
             CreateUsersRolesPermissionsSeeder::class,
+            CreateMediaLinksSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();

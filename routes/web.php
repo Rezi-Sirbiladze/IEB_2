@@ -7,6 +7,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\FairActivityController;
+use App\Http\Controllers\MediaLinksController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,10 +44,13 @@ Route::middleware('auth', 'role:admin')->group(function () {
         Route::resource('activities', ActivityController::class);
 
         Route::get('fairActivities/create/{fair_id}', [FairActivityController::class, 'create'])->name('fairActivities.create');
-        Route::get('fairActivities/editar/{fair_id}/{fairActivity_id}', [FairActivityController::class, 'edit'])->name('fairActivities.edit');
+        Route::get('fairActivities/edit/{fair_id}/{fairActivity_id}', [FairActivityController::class, 'edit'])->name('fairActivities.edit');
         Route::resource('fairActivities', FairActivityController::class)->except(['create', 'edit']);
+
+        Route::get('mediaLinks/edit', [MediaLinksController::class, 'edit'])->name('mediaLinks.edit');
+        Route::post('mediaLinks/update', [MediaLinksController::class, 'update'])->name('mediaLinks.update');
     });
-}); 
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('bookings/confirm', [BookingController::class, 'confirm'])->name('booking.confirm');

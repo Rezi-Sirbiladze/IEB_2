@@ -127,10 +127,14 @@
 </div>
 </nav>
 
+@php
+    $mediaVideo = mediaVideo();
+@endphp
+
 @if (!Route::currentRouteName() || !Str::startsWith(Route::currentRouteName(), 'admin.'))
     <div class="video-content">
         <video id="background-video" autoplay loop muted poster="{{ asset('img/IEBLogo.jpg') }}">
-            <source src="{{ asset('vid/fira.mp4') }}" type="video/mp4">
+            <source src="{{ asset('vid/' . $mediaVideo->media_path) }}" type="video/mp4">
         </video>
     </div>
 

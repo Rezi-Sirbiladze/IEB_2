@@ -32,10 +32,9 @@ class ActivityRepository implements ActivityInterface
 
     public function update(array $data, int $id): Activity
     {
-        
         $register = $this->model->findOrFail($id);
         #delete old image if new image is uploaded
-        
+
         if (isset($data['image_path'])) {
             $image_path = $register->image_path;
             $image_path = public_path('img/' . $image_path);

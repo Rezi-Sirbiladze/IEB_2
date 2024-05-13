@@ -157,7 +157,8 @@
 
                     <div class="box text-center mt-4">
                         @if (auth()->user()->confirmedBookings->count() > 0)
-                            <a href="{{ route('user.deletefairBookings', auth->user()->activeFair->id) }}" class="btn btn-danger">Cancel·lar totes les
+                            <a href="{{ route('user.deletefairBookings', auth()->user()->activeFair()->id) }}"
+                                class="btn btn-danger">Cancel·lar totes les
                                 activitats</a>
                         @endif
                     </div>
@@ -184,8 +185,8 @@
                                 </button>
                             </div>
                             <div class="col-6">
-                                <button class="openModalBtn btn2"
-                                    data-booking_id="{{ $booking->id }}">Valorar {{$booking->review ? $booking->review->score : ''}}</button>
+                                <button class="openModalBtn btn2" data-booking_id="{{ $booking->id }}">Valorar
+                                    {{ $booking->review ? $booking->review->score : '' }}</button>
                             </div>
                         </div>
                     </div>
